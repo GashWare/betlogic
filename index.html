@@ -103,8 +103,8 @@
 
         // --- CONFIGURATION ---
         const SEASON_YEAR = "2025";
-        const FALLBACK_PLAYER_IMG = "https://a.espncdn.com/i/headshots/nfl/players/full/0.png"; // Fallback silhouette
-        const FALLBACK_TEAM_LOGO = "https://a.espncdn.com/i/teamlogos/nfl/500/nfl.png"; // NFL Shield
+        const FALLBACK_PLAYER_IMG = "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/0.png&w=350&h=254";
+        const FALLBACK_TEAM_LOGO = "https://a.espncdn.com/i/teamlogos/nfl/500/nfl.png";
 
         // Helper for Team Logos (ESPN CDN)
         const getTeamLogo = (abbr, league = 'nfl') => {
@@ -115,11 +115,9 @@
         // Helper for Player Headshots (ESPN CDN)
         const getPlayerHeadshot = (playerId, league = 'nfl') => {
             if (!playerId) return FALLBACK_PLAYER_IMG;
-            // Use direct path, fallback is handled in onError
             return `https://a.espncdn.com/i/headshots/${league}/players/full/${playerId}.png`;
         };
 
-        // Helper to split full team name into City/Location and Mascot Name
         const splitTeamName = (fullName) => {
             const parts = fullName.split(' ');
             const name = parts.pop();
@@ -148,9 +146,7 @@
                 
                 // MONDAY
                 { id: 8, league: 'nfl', homeTeam: "Atlanta Falcons", homeAbbr: "ATL", awayTeam: "Los Angeles Rams", awayAbbr: "LAR", time: "Mon Dec 29, 7:15 PM CST", stadium: "Mercedes-Benz Stadium", status: "MNF", players: [{ name: "Bijan Robinson", position: "RB", team: "ATL", playerId: "4430800", propType: "Anytime TD", odds: -120, probability: 82, result: null, rationale: "Fast track indoors. Bijan's versatility vs Rams LBs is a huge edge.", recentForm: [1, 0, 2, 0, 1], seasonStats: { "Total TDs": "12", "Rec Yds": "450", "Rush Yds": "950" }, matchupStats: { "Opp Rank vs Pass RB": "28th", "Speed": "Advantage ATL" }, expandedAnalysis: "The Rams allow a ton of production to RBs in the passing game. Bijan should feast in space on the fast turf of Atlanta." }] }
-            ],
-            // Empty for other sports as requested
-            ncaa: [], nba: [], nhl: [], ncaab: [], boxing: []
+            ]
         };
 
         const PARLAY_DATA = {
@@ -178,8 +174,7 @@
                         { text: "Christian McCaffrey Anytime TD", playerId: "3117251", team: "SF" }
                     ]
                 }
-            ],
-            ncaa: [], nba: [], nhl: [], ncaab: [], boxing: []
+            ]
         };
 
         // --- SNOWFALL COMPONENT ---
@@ -244,7 +239,6 @@
                         <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-2">
                         <span className="px-3 py-1 bg-blue-600 text-white text-xs font-bold rounded-full uppercase tracking-wider">{player.team} • {player.position}</span>
                         <span className="text-slate-400 text-sm font-medium flex items-center gap-1"><Target size={14} className="text-red-400"/> {player.propType}</span>
-                        {player.result === 'hit' && <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1"><CheckCircle size={12}/> HIT</span>}
                         </div>
                         <div className="mt-4 flex items-center justify-center sm:justify-start gap-4">
                         <div><span className="text-xs text-slate-500 uppercase font-bold block">Implied Odds</span><span className={`text-2xl font-mono font-bold ${player.odds < 0 ? 'text-green-400' : 'text-yellow-400'}`}>{player.odds > 0 ? '+' : ''}{player.odds}</span></div>
@@ -499,8 +493,8 @@
                                  <button 
                                     key={league}
                                     onClick={() => {
-                                        if (league === 'ncaa') window.location.href='NCAAF.html';
-                                        else if (league === 'nba') window.location.href='NBA.html'; // ADDED LINK
+                                        if (league === 'ncaa') window.location.href='ncaaf.html';
+                                        else if (league === 'nba') window.location.href='nba.html'; 
                                         else setSelectedLeague(league);
                                     }} 
                                     className={`px-4 py-1.5 rounded-md text-sm font-bold transition-all uppercase ${
@@ -521,8 +515,8 @@
                              <button 
                                 key={league}
                                 onClick={() => {
-                                    if (league === 'ncaa') window.location.href='NCAAF.html';
-                                    else if (league === 'nba') window.location.href='NBA.html';
+                                    if (league === 'ncaa') window.location.href='ncaaf.html';
+                                    else if (league === 'nba') window.location.href='nba.html';
                                     else setSelectedLeague(league);
                                 }}
                                 className={`flex-1 min-w-[50px] py-1.5 rounded-md text-xs font-bold transition-all uppercase ${
