@@ -88,12 +88,16 @@
         const Construction = (props) => <Icon {...props}><rect x="2" y="6" width="20" height="8" rx="1"/><path d="M17 14v7"/><path d="M7 14v7"/><path d="M17 3v3"/><path d="M7 3v3"/><path d="M10 14 2.3 6.3"/><path d="m14 6 7.7 7.7"/><path d="m8 6 8 8"/></Icon>;
 
         // --- CONFIGURATION ---
-        const SEASON_YEAR = "2025-26";
-        const FALLBACK_PLAYER_IMG = "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/0.png&w=350&h=254";
-        const FALLBACK_TEAM_LOGO = "https://a.espncdn.com/i/teamlogos/ncaa/500/ncaa.png";
-
+        const SEASON_YEAR = "2025";
+        
+        // Use a high-quality SVG data URI for the fallback to ensure it always renders immediately
+        const FALLBACK_PLAYER_SVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23cbd5e1'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E";
+        
         // Helper for League Slug
-        const getLeagueSlug = (league) => 'ncaa';
+        const getLeagueSlug = (league) => {
+            if (league === 'ncaa' || league === 'college-football') return 'ncaa'; 
+            return league;
+        };
 
         // Helper for Team Logos (ESPN CDN)
         const getTeamLogo = (identifier, league) => {
@@ -101,10 +105,10 @@
             return `https://a.espncdn.com/i/teamlogos/ncaa/500/${teamCode}.png`;
         };
 
-        // Helper for Player Headshots
+        // Helper for Player Headshots - Using DIRECT path instead of combiner for reliability
         const getPlayerHeadshot = (playerId, league) => {
-            if (!playerId) return FALLBACK_PLAYER_IMG;
-            return `https://a.espncdn.com/combiner/i?img=/i/headshots/college-football/players/full/${playerId}.png&w=350&h=254`;
+            if (!playerId) return FALLBACK_PLAYER_SVG;
+            return `https://a.espncdn.com/i/headshots/college-football/players/full/${playerId}.png`;
         };
 
         const splitTeamName = (fullName) => {
@@ -116,7 +120,8 @@
 
         const FAVICON_SVG_STRING = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="2" y="2" width="28" height="28" rx="8" fill="%232563EB" /><path d="M10 6h12l-1 5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5l-1-5z" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 6L7 6a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h2" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 6l3 0a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-2" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 16v6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 22h8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-        // --- REAL WORLD BOWL SCHEDULE DATA (Dec 2025 - Jan 2026) ---
+        // --- REAL WORLD BOWL SCHEDULE DATA (Dec 26 - Jan 5) ---
+        // Using IDs for teams to ensure logos load correct
         const NCAAF_DATA = [
             // DEC 26
             { 
@@ -124,7 +129,7 @@
                 homeTeam: "New Mexico Lobos", homeAbbr: "UNM", homeId: "167",
                 awayTeam: "Minnesota Golden Gophers", awayAbbr: "MINN", awayId: "135",
                 time: "Fri Dec 26, 3:30 PM CST", stadium: "Chase Field", status: "Rate Bowl", 
-                players: [{ name: "Darius Taylor", position: "RB", team: "MINN", playerId: "5139462", propType: "Anytime TD", odds: -150, probability: 85, result: null, rationale: "Minnesota pounds the rock. New Mexico allows 170+ rushing yards/game. Taylor is the bell cow.", recentForm: [1, 2, 1, 0, 1], seasonStats: { "Rush Yds": "1,050", "TDs": "12" }, matchupStats: { "Opp Rush D": "115th", "Script": "Run Heavy" }, expandedAnalysis: "The Gophers offensive identity is perfect for this matchup. Expect Taylor to get 25+ touches as Minnesota controls the clock and the game." }] 
+                players: [{ name: "Darius Taylor", position: "RB", team: "MINN", playerId: "5139462", propType: "Anytime TD", odds: -150, probability: 85, result: null, rationale: "Minnesota pounds the rock. New Mexico allows 170+ rushing yards/game.", recentForm: [1, 2, 1, 0, 1], seasonStats: { "Rush Yds": "1,050", "TDs": "12" }, matchupStats: { "Opp Rush D": "115th", "Script": "Run Heavy" }, expandedAnalysis: "The Gophers offensive identity is perfect for this matchup. Expect Taylor to get 25+ touches as Minnesota controls the clock and the game." }] 
             },
             // DEC 27
             { 
@@ -141,9 +146,16 @@
                 time: "Sat Dec 27, 2:30 PM CST", stadium: "Camping World Stadium", status: "Pop-Tarts Bowl", 
                 players: [{ name: "Haynes King", position: "QB", team: "GT", playerId: "4431587", propType: "Anytime TD", odds: +130, probability: 68, result: null, rationale: "King is an elite dual-threat. In bowl games, QBs run more in the red zone.", recentForm: [1, 0, 1, 1, 0], seasonStats: { "Rush TDs": "9", "Pass TDs": "25" }, matchupStats: { "Opp QB Run D": "70th", "Speed": "Advantage GT" }, expandedAnalysis: "BYU has struggled with athletic QBs in space. King is one of the fastest signal callers in the country and is the primary red zone rushing option." }] 
             },
+             { 
+                id: 204, league: 'ncaa', 
+                homeTeam: "19 Virginia", homeAbbr: "UVA", homeId: "258",
+                awayTeam: "Missouri", awayAbbr: "MIZ", awayId: "142",
+                time: "Sat Dec 27, 6:30 PM CST", stadium: "EverBank Stadium", status: "Gator Bowl", 
+                players: [{ name: "Luther Burden III", position: "WR", team: "MIZ", playerId: "4870505", propType: "Anytime TD", odds: -125, probability: 80, result: null, rationale: "Best playmaker on the field. Mizzou gets him the ball in space.", recentForm: [1, 1, 0, 1, 2], seasonStats: { "Rec Yds": "1100", "TDs": "9" }, matchupStats: { "Opp Secondary": "Weak", "Targets": "High" }, expandedAnalysis: "Virginia's secondary can be exploited deep. Burden is a YAC monster and the primary redzone target for Brady Cook." }] 
+            },
             // DEC 30
             { 
-                id: 204, league: 'ncaa', 
+                id: 205, league: 'ncaa', 
                 homeTeam: "#16 USC Trojans", homeAbbr: "USC", homeId: "30",
                 awayTeam: "TCU Horned Frogs", awayAbbr: "TCU", awayId: "2628",
                 time: "Tue Dec 30, 8:00 PM CST", stadium: "Alamodome", status: "Alamo Bowl", 
@@ -151,14 +163,14 @@
             },
             // DEC 31
             { 
-                id: 205, league: 'ncaa', 
+                id: 206, league: 'ncaa', 
                 homeTeam: "#18 Michigan Wolverines", homeAbbr: "MICH", homeId: "130",
                 awayTeam: "#13 Texas Longhorns", awayAbbr: "TEX", awayId: "251",
                 time: "Wed Dec 31, 2:00 PM CST", stadium: "Camping World Stadium", status: "Citrus Bowl", 
                 players: [{ name: "Arch Manning", position: "QB", team: "TEX", playerId: "4685160", propType: "2+ Passing TDs", odds: +120, probability: 70, result: null, rationale: "The future is now. Manning makes his big bowl start vs a tough defense.", recentForm: [1, 2, 2, 1, 3], seasonStats: { "Pass TDs": "18", "Int": "4" }, matchupStats: { "Opp Def": "Elite", "Motivation": "High" }, expandedAnalysis: "Sarkisian will want to showcase Manning heading into 2026. Despite Michigan's defense, the Texas skill talent is superior on the perimeter." }] 
             },
             { 
-                id: 206, league: 'ncaa', 
+                id: 207, league: 'ncaa', 
                 homeTeam: "#10 Miami Hurricanes", homeAbbr: "MIA", homeId: "2390",
                 awayTeam: "#2 Ohio State Buckeyes", awayAbbr: "OSU", awayId: "194",
                 time: "Wed Dec 31, 6:30 PM CST", stadium: "AT&T Stadium", status: "Cotton Bowl", 
@@ -166,21 +178,21 @@
             },
             // JAN 1 (CFP QUARTERS)
             { 
-                id: 207, league: 'ncaa', 
+                id: 208, league: 'ncaa', 
                 homeTeam: "#5 Oregon Ducks", homeAbbr: "ORE", homeId: "2483",
                 awayTeam: "#4 Texas Tech Red Raiders", awayAbbr: "TTU", awayId: "2641",
                 time: "Thu Jan 1, 11:00 AM CST", stadium: "Hard Rock Stadium", status: "Orange Bowl", 
                 players: [{ name: "Jordan James", position: "RB", team: "ORE", playerId: "4876008", propType: "Anytime TD", odds: -180, probability: 88, result: null, rationale: "Oregon's physicality vs Tech's 'Air Raid' DNA. James gets the rock.", recentForm: [2, 1, 1, 1, 0], seasonStats: { "Rush TDs": "15", "Y/Carry": "6.1" }, matchupStats: { "Opp Rush D": "85th", "Size": "Advantage" }, expandedAnalysis: "Tech wants a shootout; Oregon wants to dominate the LOS. James will be the hammer that keeps the Tech offense on the sideline." }] 
             },
             { 
-                id: 208, league: 'ncaa', 
+                id: 209, league: 'ncaa', 
                 homeTeam: "#9 Alabama Crimson Tide", homeAbbr: "ALA", homeId: "333",
                 awayTeam: "#1 Indiana Hoosiers", awayAbbr: "IND", awayId: "84",
                 time: "Thu Jan 1, 3:00 PM CST", stadium: "Rose Bowl", status: "Rose Bowl", 
                 players: [{ name: "Jalen Milroe", position: "QB", team: "ALA", playerId: "4430722", propType: "Anytime TD", odds: -110, probability: 76, result: null, rationale: "Milroe's legs are the X-factor in the CFP. Indiana hasn't seen speed like this.", recentForm: [1, 2, 0, 1, 1], seasonStats: { "Rush TDs": "14", "Pass TDs": "22" }, matchupStats: { "Opp QB Contain": "Untested", "Stage": "Big" }, expandedAnalysis: "Indiana's dream season meets Bama's talent. Milroe scrambling in the red zone is nearly indefensible. He will call his own number." }] 
             },
             { 
-                id: 209, league: 'ncaa', 
+                id: 210, league: 'ncaa', 
                 homeTeam: "#6 Ole Miss Rebels", homeAbbr: "MISS", homeId: "145",
                 awayTeam: "#3 Georgia Bulldogs", awayAbbr: "UGA", awayId: "61",
                 time: "Thu Jan 1, 7:00 PM CST", stadium: "Caesars Superdome", status: "Sugar Bowl", 
@@ -190,26 +202,26 @@
 
         const PARLAYS = [
             { 
-                title: "New Year's Six Value", 
-                totalOdds: "+450", 
-                multiplier: 5.5, 
-                type: "high", 
-                analysis: "Betting on talent advantages in the CFP. Alabama's athleticism vs Indiana. Arch Manning's debut on the big stage. Jeremiah Smith in a dome.",
+                title: "Bowl Season Double", 
+                totalOdds: "+240", 
+                multiplier: 3.40, 
+                type: "safe", 
+                analysis: "Fading USC's defense is a profitable strategy. Backing Clemson's QB against a Pac-12 defense that travels poorly.",
                 items: [
-                    { text: "Jeremiah Smith Anytime TD", playerId: "5174548", team: "OSU", teamId: "194" },
-                    { text: "Jalen Milroe Anytime TD", playerId: "4430722", team: "ALA", teamId: "333" },
-                    { text: "Texas ML", playerId: null, team: "TEX", teamId: "251" }
+                    { text: "DJ Giddens Anytime TD", playerId: "4686259", team: "KSU", teamId: "2306" },
+                    { text: "Cade Klubnik 2+ Pass TDs", playerId: "4430737", team: "CLEM", teamId: "228" }
                 ]
             },
             { 
-                title: "Bowl Season Lock", 
-                totalOdds: "+180", 
-                multiplier: 2.80, 
-                type: "safe", 
-                analysis: "Ohio State is a different class than Miami. Alabama's run game travels. Simple moneyline parlay on the favorites.",
+                title: "Holiday Haymaker", 
+                totalOdds: "+650", 
+                multiplier: 7.5, 
+                type: "high", 
+                analysis: "High scoring affair expected in the Alamo Bowl. Notre Dame defense suffocates OK State, leading to short fields for Love.",
                 items: [
-                    { text: "Ohio State ML", playerId: null, team: "OSU", teamId: "194" },
-                    { text: "Alabama ML", playerId: null, team: "ALA", teamId: "333" }
+                    { text: "K-State vs USC Over 62.5", playerId: null, team: "KSU", teamId: "2306" },
+                    { text: "Jeremiyah Love Anytime TD", playerId: "4842187", team: "ND", teamId: "87" },
+                    { text: "Clemson ML", playerId: null, team: "CLEM", teamId: "228" }
                 ]
             }
         ];
@@ -234,7 +246,7 @@
                     <button onClick={onClose} className="absolute top-4 right-4 z-10 p-2 bg-black/20 hover:bg-black/40 rounded-full text-slate-400 hover:text-white transition-colors"><X size={20} /></button>
                     <div className="relative bg-gradient-to-r from-slate-800 to-slate-900 p-8 flex flex-col sm:flex-row items-center sm:items-end gap-6 border-b border-slate-700">
                     <div className="w-32 h-32 rounded-full border-4 border-slate-700 bg-slate-800 overflow-hidden shadow-xl shrink-0">
-                        <img src={getPlayerHeadshot(player.playerId, 'ncaa')} alt={player.name} className="w-full h-full object-cover object-top pt-2" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }} />
+                        <img src={getPlayerHeadshot(player.playerId, 'ncaa')} alt={player.name} className="w-full h-full object-cover object-top pt-2" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_SVG; }} />
                     </div>
                     <div className="text-center sm:text-left">
                         <h2 className="text-3xl font-black text-white tracking-tight">{player.name}</h2>
@@ -286,7 +298,7 @@
                                     <div key={i} className="flex items-center p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
                                         <div className="shrink-0 mr-3 text-slate-500"><Layers size={16} /></div>
                                         <div className="flex -space-x-2 mr-3">
-                                            {item.playerId && (<div className="h-8 w-8 rounded-full bg-white overflow-hidden border-2 border-slate-800 z-10"><img src={getPlayerHeadshot(item.playerId, 'ncaa')} className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }}/></div>)}
+                                            {item.playerId && (<div className="h-8 w-8 rounded-full bg-white overflow-hidden border-2 border-slate-800 z-10"><img src={getPlayerHeadshot(item.playerId, 'ncaa')} className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_SVG; }}/></div>)}
                                             {item.teamId && (<div className="h-8 w-8 rounded-full bg-white p-1 overflow-hidden border-2 border-slate-800 z-0 flex items-center justify-center"><img src={getTeamLogo(item.teamId, 'ncaa')} className="w-full h-full object-contain" onError={(e) => e.target.style.display='none'}/></div>)}
                                         </div>
                                         <span className="font-bold text-slate-200 text-sm">{item.text}</span>
@@ -316,9 +328,8 @@
                     <div className="absolute inset-0 bg-gradient-to-b from-slate-800 to-slate-900 opacity-50 z-0"></div>
                     <div className="text-center w-1/3 z-10 flex flex-col items-center">
                     <div className="w-16 h-16 bg-white rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg relative">
-                         {/* CORRECTED: Hardcoded 'ncaa' as league to ensure logo path is correct */}
                          <img src={getTeamLogo(game.awayId || game.awayAbbr, 'ncaa')} alt={game.awayTeam} className="w-full h-full object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
-                         <div className="absolute inset-0 flex items-center justify-center text-xs font-black text-black" style={{zIndex: -1}}>{game.awayAbbr}</div>
+                        <div className="absolute inset-0 flex items-center justify-center text-xs font-black text-slate-900" style={{zIndex: -1}}>{game.awayAbbr}</div>
                     </div>
                     <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-tight mt-1">{away.city}</div>
                     <div className="text-xl font-black text-white leading-none mt-0.5">{away.name}</div>
@@ -327,7 +338,6 @@
                     <div className="text-center w-1/3 z-10"><span className="text-slate-500 font-bold text-lg bg-slate-950/50 px-3 py-1 rounded-full border border-slate-800">VS</span></div>
                     <div className="text-center w-1/3 z-10 flex flex-col items-center">
                     <div className="w-16 h-16 bg-white rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg">
-                        {/* CORRECTED: Hardcoded 'ncaa' as league to ensure logo path is correct */}
                         <img src={getTeamLogo(game.homeId || game.homeAbbr, 'ncaa')} alt={game.homeTeam} className="w-full h-full object-contain" onError={(e) => {e.target.style.display = 'none'}} />
                     </div>
                     <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-tight mt-1">{home.city}</div>
@@ -346,7 +356,7 @@
                         <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-3">
                             <div className="h-12 w-12 rounded-full overflow-hidden bg-slate-600 border border-slate-500 shrink-0 group-hover:border-blue-400 transition-colors">
-                            <img src={getPlayerHeadshot(player.playerId, 'ncaa')} alt={player.name} className="w-full h-full object-cover object-top pt-1" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }} />
+                            <img src={getPlayerHeadshot(player.playerId, 'ncaa')} alt={player.name} className="w-full h-full object-cover object-top pt-1" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_SVG; }} />
                             </div>
                             <div>
                             <h4 className="font-bold text-white flex items-center gap-2 text-sm sm:text-base group-hover:text-blue-400 transition-colors">{player.name}<ChevronRight size={14} className="opacity-0 -ml-1 group-hover:opacity-100 group-hover:ml-0 transition-all text-blue-400"/></h4>
@@ -395,9 +405,8 @@
                                         {isSafe ? <ShieldCheck size={14} className="text-green-500" /> : <TrendingUp size={14} className="text-purple-500" />}
                                     </div>
                                     
-                                    {/* Player Headshot if ID exists */}
                                     {item.playerId && (
-                                        <div className="h-6 w-6 rounded-full bg-slate-700 overflow-hidden border border-slate-600 shrink-0">
+                                        <div className="h-6 w-6 rounded-full bg-white overflow-hidden border-2 border-slate-600 shrink-0">
                                             <img 
                                                 src={getPlayerHeadshot(item.playerId, 'ncaa')} 
                                                 onError={(e) => e.target.style.display='none'}
@@ -406,7 +415,6 @@
                                         </div>
                                     )}
 
-                                    {/* Team Logo if Team exists */}
                                     {item.teamId && (
                                         <div className="h-5 w-5 object-contain shrink-0">
                                             <img 
@@ -532,61 +540,55 @@
                     <h1 className="text-3xl md:text-5xl font-black text-white mb-4 flex flex-wrap items-center gap-x-3 gap-y-2">
                         <span className={`text-transparent bg-clip-text bg-gradient-to-r leading-tight py-1 ${
                             theme === 'christmas' ? 'from-green-400 via-red-400 to-amber-300' : 'from-blue-400 to-emerald-400'}`}>
-                            {selectedLeague === 'ncaa' ? 'NCAAF Bowl Season' : 'Under Construction'}
+                            NCAAF Bowl Season
                         </span> 
                         <span className="text-white whitespace-nowrap leading-tight">
-                            {selectedLeague === 'ncaa' ? 'Top TD Props' : ''}
+                            Top TD Props
                         </span>
                     </h1>
                     <p className={`text-xl font-bold mb-3 ${theme === 'christmas' ? 'text-green-400' : 'text-blue-400'}`}>
                         Don't just bet, bet with logic.
                     </p>
                     <p className="text-slate-400 max-w-2xl text-lg">
-                        {selectedLeague === 'ncaa' ? "Statistical analysis and matchup-based predictions for the 2025 College Football Bowl Season." : "Our predictive models for this sport are currently calibrating. Check back later for real-time analytics."}
+                        Statistical analysis and matchup-based predictions for the 2025 College Football Bowl Season.
                     </p>
                     </div>
 
-                    {selectedLeague === 'ncaa' ? (
-                        <>
-                            <div className="mb-12">
-                                <div className="flex items-center gap-2 mb-6">
-                                    <Zap className={theme === 'christmas' ? 'text-green-400' : 'text-yellow-400'} />
-                                    <h2 className="text-2xl font-bold text-white">Recommended Parlays</h2>
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {PARLAYS.map((parlay, idx) => (
-                                        <ParlayCard 
-                                            key={idx}
-                                            title={parlay.title}
-                                            totalOdds={parlay.totalOdds}
-                                            multiplier={parlay.multiplier}
-                                            type={parlay.type}
-                                            items={parlay.items}
-                                            theme={theme}
-                                            league="ncaa"
-                                            onSelect={() => setSelectedParlay(parlay)}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
+                    <div className="mb-12">
+                        <div className="flex items-center gap-2 mb-6">
+                            <Zap className={theme === 'christmas' ? 'text-green-400' : 'text-yellow-400'} />
+                            <h2 className="text-2xl font-bold text-white">Recommended Parlays</h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {PARLAYS.map((parlay, idx) => (
+                                <ParlayCard 
+                                    key={idx}
+                                    title={parlay.title}
+                                    totalOdds={parlay.totalOdds}
+                                    multiplier={parlay.multiplier}
+                                    type={parlay.type}
+                                    items={parlay.items}
+                                    theme={theme}
+                                    league="ncaa"
+                                    onSelect={() => setSelectedParlay(parlay)}
+                                />
+                            ))}
+                        </div>
+                    </div>
 
-                            <div className="mb-8">
-                            <div className="flex items-center justify-between mb-6">
-                                <div className="flex items-center gap-2"><BarChart3 className={theme === 'christmas' ? 'text-green-400' : 'text-blue-400'} /><h2 className="text-2xl font-bold text-white">Matchup Analysis</h2></div>
-                                 <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ${
-                                     theme === 'christmas' ? 'bg-red-900/50 text-green-300 border border-white/10' : 'bg-blue-500/20 text-blue-400'
-                                 }`}>NCAAF</span>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {NCAAF_DATA.map((game) => (
-                                    <GameCard key={game.id} game={game} onSelectPlayer={setSelectedPlayer} theme={theme} league="ncaa" />
-                                ))}
-                            </div>
-                            </div>
-                        </>
-                    ) : (
-                        <UnderConstruction />
-                    )}
+                    <div className="mb-8">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-2"><BarChart3 className={theme === 'christmas' ? 'text-green-400' : 'text-blue-400'} /><h2 className="text-2xl font-bold text-white">Matchup Analysis</h2></div>
+                         <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ${
+                             theme === 'christmas' ? 'bg-red-900/50 text-green-300 border border-white/10' : 'bg-blue-500/20 text-blue-400'
+                         }`}>NCAAF</span>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {NCAAF_DATA.map((game) => (
+                            <GameCard key={game.id} game={game} onSelectPlayer={setSelectedPlayer} theme={theme} league="ncaa" />
+                        ))}
+                    </div>
+                    </div>
                 </main>
 
                 <footer className={`border-t mt-12 py-8 ${theme === 'christmas' ? 'bg-red-950/20 border-red-900/30' : 'bg-slate-900 border-slate-800'}`}>

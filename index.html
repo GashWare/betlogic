@@ -13,6 +13,10 @@
     <link rel="canonical" href="https://betlogic.win/">
     <meta name="theme-color" content="#0f172a">
 
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7151608977843663"
+     crossorigin="anonymous"></script>
+
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -97,30 +101,22 @@
         const Layers = (props) => <Icon {...props}><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></Icon>;
         const Construction = (props) => <Icon {...props}><rect x="2" y="6" width="20" height="8" rx="1"/><path d="M17 14v7"/><path d="M7 14v7"/><path d="M17 3v3"/><path d="M7 3v3"/><path d="M10 14 2.3 6.3"/><path d="m14 6 7.7 7.7"/><path d="m8 6 8 8"/></Icon>;
 
-        // --- CONFIGURATION / DATA SECTION ---
+        // --- CONFIGURATION ---
         const SEASON_YEAR = "2025";
-        const FALLBACK_PLAYER_IMG = "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/0.png&w=350&h=254";
-
-        // Helper for League Slug
-        const getLeagueSlug = (league) => {
-            if (league === 'ncaa') return 'college-football';
-            if (league === 'ncaab') return 'mens-college-basketball';
-            if (league === 'boxing') return 'boxing';
-            return league; // nfl, nba, nhl
-        };
+        const FALLBACK_PLAYER_IMG = "https://a.espncdn.com/i/headshots/nfl/players/full/0.png"; // Fallback silhouette
+        const FALLBACK_TEAM_LOGO = "https://a.espncdn.com/i/teamlogos/nfl/500/nfl.png"; // NFL Shield
 
         // Helper for Team Logos (ESPN CDN)
-        const getTeamLogo = (abbr, league) => {
+        const getTeamLogo = (abbr, league = 'nfl') => {
             if (league === 'boxing') return `https://via.placeholder.com/500/000000/FFFFFF?text=${abbr}`; 
-            const slug = getLeagueSlug(league);
-            return `https://a.espncdn.com/i/teamlogos/${slug}/500/${abbr.toLowerCase()}.png`;
+            return `https://a.espncdn.com/i/teamlogos/${league}/500/${abbr.toLowerCase()}.png`;
         };
 
         // Helper for Player Headshots (ESPN CDN)
-        const getPlayerHeadshot = (playerId, league) => {
-            let slug = getLeagueSlug(league);
+        const getPlayerHeadshot = (playerId, league = 'nfl') => {
             if (!playerId) return FALLBACK_PLAYER_IMG;
-            return `https://a.espncdn.com/combiner/i?img=/i/headshots/${slug}/players/full/${playerId}.png&w=350&h=254`;
+            // Use direct path, fallback is handled in onError
+            return `https://a.espncdn.com/i/headshots/${league}/players/full/${playerId}.png`;
         };
 
         // Helper to split full team name into City/Location and Mascot Name
@@ -138,18 +134,20 @@
             meta: { seasonYear: "2024-25" },
             nfl: [
                 // CHRISTMAS DAY
-                { id: 1, league: 'nfl', homeTeam: "Kansas City Chiefs", homeAbbr: "KC", awayTeam: "Denver Broncos", awayAbbr: "DEN", time: "Thu Dec 25, 7:15 PM CST", stadium: "GEHA Field at Arrowhead", status: "Christmas Night", players: [{ name: "Isiah Pacheco", position: "RB", team: "KC", playerId: "4697968", propType: "Anytime TD", odds: -130, probability: 84, result: null, rationale: "Pacheco is the engine of the Chiefs' red zone offense. Denver allows 4.8 YPC on the road.", recentForm: [1, 2, 0, 1, 1], seasonStats: { "Rush TDs": "12", "Rush Yds": "1,050", "Rec Yds": "350" }, matchupStats: { "Opp Rank vs Run": "24th", "Weather": "Cold" }, expandedAnalysis: "In late-season divisional games at Arrowhead, Andy Reid relies heavily on the ground game. Pacheco's violent running style wears down the Broncos front seven." }] },
+                { id: 1, league: 'nfl', homeTeam: "Washington Commanders", homeAbbr: "WSH", awayTeam: "Dallas Cowboys", awayAbbr: "DAL", time: "Thu Dec 25, 12:00 PM CST", stadium: "Commanders Field", status: "Christmas Day", players: [{ name: "CeeDee Lamb", position: "WR", team: "DAL", playerId: "4241389", propType: "Anytime TD", odds: 105, probability: 75, result: null, rationale: "Washington allows the most fantasy points to WRs. Lamb is Dak's primary read in the red zone.", recentForm: [1, 0, 2, 1, 1], seasonStats: { "Rec Yds": "1,180", "TDs": "9", "Targets": "125" }, matchupStats: { "Opp Rank vs WR": "32nd", "Man Cov %": "Low" }, expandedAnalysis: "Washington's secondary is historically bad. Lamb moves all over the formation and should see double-digit targets in a game the Cowboys need." }] },
+                { id: 2, league: 'nfl', homeTeam: "Minnesota Vikings", homeAbbr: "MIN", awayTeam: "Detroit Lions", awayAbbr: "DET", time: "Thu Dec 25, 3:30 PM CST", stadium: "U.S. Bank Stadium", status: "Christmas Day", players: [{ name: "Justin Jefferson", position: "WR", team: "MIN", playerId: "4262921", propType: "Anytime TD", odds: -110, probability: 78, result: null, rationale: "Jefferson vs Detroit's aggressive secondary is a mismatch. He dominates this rivalry.", recentForm: [1, 1, 0, 1, 2], seasonStats: { "Rec Yds": "1,450", "TDs": "8", "Y/Rec": "16.1" }, matchupStats: { "Opp Rank vs WR1": "26th", "Indoor": "Fast" }, expandedAnalysis: "Detroit plays man coverage at a high rate, which Jefferson destroys. Expect a shootout where Jefferson is force-fed the ball." }] },
+                { id: 3, league: 'nfl', homeTeam: "Kansas City Chiefs", homeAbbr: "KC", awayTeam: "Denver Broncos", awayAbbr: "DEN", time: "Thu Dec 25, 7:15 PM CST", stadium: "GEHA Field at Arrowhead", status: "Christmas Night", players: [{ name: "Isiah Pacheco", position: "RB", team: "KC", playerId: "4697968", propType: "Anytime TD", odds: -130, probability: 84, result: null, rationale: "Pacheco is the engine of the Chiefs' red zone offense. Denver allows 4.8 YPC on the road.", recentForm: [1, 2, 0, 1, 1], seasonStats: { "Rush TDs": "12", "Rush Yds": "1,050", "Rec Yds": "350" }, matchupStats: { "Opp Rank vs Run": "24th", "Weather": "Cold" }, expandedAnalysis: "In late-season divisional games at Arrowhead, Andy Reid relies heavily on the ground game. Pacheco's violent running style wears down the Broncos front seven." }] },
                 
                 // SATURDAY
-                { id: 2, league: 'nfl', homeTeam: "Los Angeles Chargers", homeAbbr: "LAC", awayTeam: "Houston Texans", awayAbbr: "HOU", time: "Sat Dec 27, 3:30 PM CST", stadium: "SoFi Stadium", status: "Saturday Football", players: [{ name: "Joe Mixon", position: "RB", team: "HOU", playerId: "3051389", propType: "Anytime TD", odds: -115, probability: 72, result: null, rationale: "Mixon sees massive volume in Houston's offense. Chargers run D is middle of the pack.", recentForm: [1, 1, 0, 2, 1], seasonStats: { "Rush TDs": "11", "Rush Yds": "1,080", "Att": "235" }, matchupStats: { "Opp Rank vs Run": "15th", "RZC": "High" }, expandedAnalysis: "With Stroud leading the way, Mixon gets plenty of light boxes. He is the unquestioned goal-line back for a high-scoring offense." }] },
-                { id: 3, league: 'nfl', homeTeam: "Green Bay Packers", homeAbbr: "GB", awayTeam: "Baltimore Ravens", awayAbbr: "BAL", time: "Sat Dec 27, 7:00 PM CST", stadium: "Lambeau Field", status: "Saturday Night", players: [{ name: "Derrick Henry", position: "RB", team: "BAL", playerId: "3043078", propType: "Anytime TD", odds: -160, probability: 88, result: null, rationale: "King Henry in December at Lambeau. It's a script written for a power back.", recentForm: [1, 2, 1, 1, 1], seasonStats: { "Rush TDs": "15", "Rush Yds": "1,320", "Y/Carry": "5.4" }, matchupStats: { "Opp Rank vs Run": "20th", "Weather": "Frozen" }, expandedAnalysis: "Packers struggle with physical runners. In freezing temps, Baltimore won't throw much. Henry 25+ carries lock." }] },
+                { id: 4, league: 'nfl', homeTeam: "Los Angeles Chargers", homeAbbr: "LAC", awayTeam: "Houston Texans", awayAbbr: "HOU", time: "Sat Dec 27, 3:30 PM CST", stadium: "SoFi Stadium", status: "Saturday Football", players: [{ name: "Joe Mixon", position: "RB", team: "HOU", playerId: "3051389", propType: "Anytime TD", odds: -115, probability: 72, result: null, rationale: "Mixon sees massive volume in Houston's offense. Chargers run D is middle of the pack.", recentForm: [1, 1, 0, 2, 1], seasonStats: { "Rush TDs": "11", "Rush Yds": "1,080", "Att": "235" }, matchupStats: { "Opp Rank vs Run": "15th", "RZC": "High" }, expandedAnalysis: "With Stroud leading the way, Mixon gets plenty of light boxes. He is the unquestioned goal-line back for a high-scoring offense." }] },
+                { id: 5, league: 'nfl', homeTeam: "Green Bay Packers", homeAbbr: "GB", awayTeam: "Baltimore Ravens", awayAbbr: "BAL", time: "Sat Dec 27, 7:00 PM CST", stadium: "Lambeau Field", status: "Saturday Night", players: [{ name: "Derrick Henry", position: "RB", team: "BAL", playerId: "3043078", propType: "Anytime TD", odds: -160, probability: 88, result: null, rationale: "King Henry in December at Lambeau. It's a script written for a power back.", recentForm: [1, 2, 1, 1, 1], seasonStats: { "Rush TDs": "15", "Rush Yds": "1,320", "Y/Carry": "5.4" }, matchupStats: { "Opp Rank vs Run": "20th", "Weather": "Frozen" }, expandedAnalysis: "Packers struggle with physical runners. In freezing temps, Baltimore won't throw much. Henry 25+ carries lock." }] },
 
                 // SUNDAY KEY GAMES
-                { id: 4, league: 'nfl', homeTeam: "Buffalo Bills", homeAbbr: "BUF", awayTeam: "Philadelphia Eagles", awayAbbr: "PHI", time: "Sun Dec 28, 3:25 PM CST", stadium: "Highmark Stadium", status: "Week 17", players: [{ name: "Saquon Barkley", position: "RB", team: "PHI", playerId: "3929630", propType: "Anytime TD", odds: -110, probability: 80, result: null, rationale: "Saquon is the Eagles' MVP. Bills run defense allows big plays.", recentForm: [2, 1, 0, 1, 2], seasonStats: { "Total TDs": "16", "Scrimmage Yds": "1,450" }, matchupStats: { "Opp Rank vs Run": "22nd", "Gap Control": "Poor" }, expandedAnalysis: "In a potential Super Bowl preview, expect the Eagles to control the clock with Saquon. He is explosive and gets goal line carries alongside the Tush Push." }] },
-                { id: 5, league: 'nfl', homeTeam: "San Francisco 49ers", homeAbbr: "SF", awayTeam: "Chicago Bears", awayAbbr: "CHI", time: "Sun Dec 28, 7:20 PM CST", stadium: "Levi's Stadium", status: "SNF", players: [{ name: "Christian McCaffrey", position: "RB", team: "SF", playerId: "3117251", propType: "Anytime TD", odds: -220, probability: 92, result: null, rationale: "CMC at home on SNF. Shanahan will want to secure seeding.", recentForm: [1, 2, 1, 1, 1], seasonStats: { "Total TDs": "18", "Scrimmage Yds": "1,600" }, matchupStats: { "Opp Rank vs RB": "10th", "Surface": "Grass" }, expandedAnalysis: "The Bears defense has improved, but McCaffrey is matchup-proof. He is the first, second, and third option in the red zone." }] },
+                { id: 6, league: 'nfl', homeTeam: "Buffalo Bills", homeAbbr: "BUF", awayTeam: "Philadelphia Eagles", awayAbbr: "PHI", time: "Sun Dec 28, 3:25 PM CST", stadium: "Highmark Stadium", status: "Week 17", players: [{ name: "Saquon Barkley", position: "RB", team: "PHI", playerId: "3929630", propType: "Anytime TD", odds: -110, probability: 80, result: null, rationale: "Saquon is the Eagles' MVP. Bills run defense allows big plays.", recentForm: [2, 1, 0, 1, 2], seasonStats: { "Total TDs": "16", "Scrimmage Yds": "1,450" }, matchupStats: { "Opp Rank vs Run": "22nd", "Gap Control": "Poor" }, expandedAnalysis: "In a potential Super Bowl preview, expect the Eagles to control the clock with Saquon. He is explosive and gets goal line carries alongside the Tush Push." }] },
+                { id: 7, league: 'nfl', homeTeam: "San Francisco 49ers", homeAbbr: "SF", awayTeam: "Chicago Bears", awayAbbr: "CHI", time: "Sun Dec 28, 7:20 PM CST", stadium: "Levi's Stadium", status: "SNF", players: [{ name: "Christian McCaffrey", position: "RB", team: "SF", playerId: "3117251", propType: "Anytime TD", odds: -220, probability: 92, result: null, rationale: "CMC at home on SNF. Shanahan will want to secure seeding.", recentForm: [1, 2, 1, 1, 1], seasonStats: { "Total TDs": "18", "Scrimmage Yds": "1,600" }, matchupStats: { "Opp Rank vs RB": "10th", "Surface": "Grass" }, expandedAnalysis: "The Bears defense has improved, but McCaffrey is matchup-proof. He is the first, second, and third option in the red zone." }] },
                 
                 // MONDAY
-                { id: 6, league: 'nfl', homeTeam: "Atlanta Falcons", homeAbbr: "ATL", awayTeam: "Los Angeles Rams", awayAbbr: "LAR", time: "Mon Dec 29, 7:15 PM CST", stadium: "Mercedes-Benz Stadium", status: "MNF", players: [{ name: "Bijan Robinson", position: "RB", team: "ATL", playerId: "4430800", propType: "Anytime TD", odds: -120, probability: 82, result: null, rationale: "Fast track indoors. Bijan's versatility vs Rams LBs is a huge edge.", recentForm: [1, 0, 2, 0, 1], seasonStats: { "Total TDs": "12", "Rec Yds": "450", "Rush Yds": "950" }, matchupStats: { "Opp Rank vs Pass RB": "28th", "Speed": "Advantage ATL" }, expandedAnalysis: "The Rams allow a ton of production to RBs in the passing game. Bijan should feast in space on the fast turf of Atlanta." }] }
+                { id: 8, league: 'nfl', homeTeam: "Atlanta Falcons", homeAbbr: "ATL", awayTeam: "Los Angeles Rams", awayAbbr: "LAR", time: "Mon Dec 29, 7:15 PM CST", stadium: "Mercedes-Benz Stadium", status: "MNF", players: [{ name: "Bijan Robinson", position: "RB", team: "ATL", playerId: "4430800", propType: "Anytime TD", odds: -120, probability: 82, result: null, rationale: "Fast track indoors. Bijan's versatility vs Rams LBs is a huge edge.", recentForm: [1, 0, 2, 0, 1], seasonStats: { "Total TDs": "12", "Rec Yds": "450", "Rush Yds": "950" }, matchupStats: { "Opp Rank vs Pass RB": "28th", "Speed": "Advantage ATL" }, expandedAnalysis: "The Rams allow a ton of production to RBs in the passing game. Bijan should feast in space on the fast turf of Atlanta." }] }
             ],
             // Empty for other sports as requested
             ncaa: [], nba: [], nhl: [], ncaab: [], boxing: []
@@ -162,9 +160,9 @@
                     totalOdds: "+250", 
                     multiplier: 3.50, 
                     type: "safe", 
-                    analysis: "Backing the two biggest stars on Christmas weekend. Derrick Henry in cold weather against a team that struggles with physicality, and Pacheco as the goal line hammer for KC.",
+                    analysis: "Backing the two biggest stars on Christmas. CeeDee Lamb against the worst pass defense in the league (WSH) and Derrick Henry in cold weather against a team that struggles with physicality.",
                     items: [
-                        { text: "Isiah Pacheco Anytime TD", playerId: "4697968", team: "KC" },
+                        { text: "CeeDee Lamb Anytime TD", playerId: "4241389", team: "DAL" },
                         { text: "Derrick Henry Anytime TD", playerId: "3043078", team: "BAL" }
                     ]
                 },
@@ -173,9 +171,9 @@
                     totalOdds: "+900", 
                     multiplier: 10.0, 
                     type: "high", 
-                    analysis: "Saquon in a shootout with Josh Allen. CMC on SNF is free money. Bijan indoors on Monday night. A high-upside parlay relying on elite usage rates.",
+                    analysis: "Jefferson at home is unstoppable. Saquon in a shootout with Josh Allen. CMC on SNF is free money. A high-upside parlay relying on elite usage rates.",
                     items: [
-                        { text: "Bijan Robinson Anytime TD", playerId: "4430800", team: "ATL" },
+                        { text: "Justin Jefferson Anytime TD", playerId: "4262921", team: "MIN" },
                         { text: "Saquon Barkley Anytime TD", playerId: "3929630", team: "PHI" },
                         { text: "Christian McCaffrey Anytime TD", playerId: "3117251", team: "SF" }
                     ]
@@ -209,13 +207,16 @@
             );
         };
 
-        const RecentFormSparks = ({ data }) => (
-            <div className="flex items-end space-x-1 h-8">
-                {data.map((val, idx) => (
-                <div key={idx} className={`w-1.5 rounded-t-sm ${val > 0 ? 'bg-green-400' : 'bg-slate-600'}`} style={{ height: `${Math.max(20, (val + 0.5) * 33)}%` }} title={val > 0 ? "Hit" : "Miss"}></div>
-                ))}
-            </div>
-        );
+        const RecentFormSparks = ({ data }) => {
+            if (!data) return null;
+            return (
+                <div className="flex items-end space-x-1 h-8">
+                    {data.map((val, idx) => (
+                    <div key={idx} className={`w-1.5 rounded-t-sm ${val > 0 ? 'bg-green-400' : 'bg-slate-600'}`} style={{ height: `${Math.max(20, (val + 0.5) * 33)}%` }} title={val > 0 ? "Hit" : "Miss"}></div>
+                    ))}
+                </div>
+            );
+        };
 
         const UnderConstruction = () => (
             <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
@@ -243,6 +244,7 @@
                         <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-2">
                         <span className="px-3 py-1 bg-blue-600 text-white text-xs font-bold rounded-full uppercase tracking-wider">{player.team} • {player.position}</span>
                         <span className="text-slate-400 text-sm font-medium flex items-center gap-1"><Target size={14} className="text-red-400"/> {player.propType}</span>
+                        {player.result === 'hit' && <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1"><CheckCircle size={12}/> HIT</span>}
                         </div>
                         <div className="mt-4 flex items-center justify-center sm:justify-start gap-4">
                         <div><span className="text-xs text-slate-500 uppercase font-bold block">Implied Odds</span><span className={`text-2xl font-mono font-bold ${player.odds < 0 ? 'text-green-400' : 'text-yellow-400'}`}>{player.odds > 0 ? '+' : ''}{player.odds}</span></div>
@@ -303,10 +305,9 @@
             );
         };
 
-        const GameCard = ({ game, onSelectPlayer, theme }) => {
+        const GameCard = ({ game, onSelectPlayer, theme, league }) => {
             const away = splitTeamName(game.awayTeam);
             const home = splitTeamName(game.homeTeam);
-            let leagueSlug = 'nfl';
             let leagueColor = theme === 'christmas' ? 'bg-red-900/20 text-green-400 border-red-500/30' : 'bg-blue-900/30 text-blue-400 border-blue-500/30';
 
             return (
@@ -318,8 +319,8 @@
                 <div className="p-6 flex justify-between items-center relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-b from-slate-800 to-slate-900 opacity-50 z-0"></div>
                     <div className="text-center w-1/3 z-10 flex flex-col items-center">
-                    <div className="w-16 h-16 bg-white/5 rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg relative">
-                         <img src={getTeamLogo(game.awayAbbr, leagueSlug)} alt={game.awayTeam} className="w-full h-full object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
+                    <div className="w-16 h-16 bg-white rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg relative">
+                         <img src={getTeamLogo(game.awayAbbr, league)} alt={game.awayTeam} className="w-full h-full object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
                         <div className="absolute inset-0 flex items-center justify-center text-xs font-black text-slate-900" style={{zIndex: -1}}>{game.awayAbbr}</div>
                     </div>
                     <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-tight mt-1">{away.city}</div>
@@ -328,8 +329,8 @@
                     </div>
                     <div className="text-center w-1/3 z-10"><span className="text-slate-500 font-bold text-lg bg-slate-950/50 px-3 py-1 rounded-full border border-slate-800">VS</span></div>
                     <div className="text-center w-1/3 z-10 flex flex-col items-center">
-                    <div className="w-16 h-16 bg-white/5 rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg">
-                        <img src={getTeamLogo(game.homeAbbr, leagueSlug)} alt={game.homeTeam} className="w-full h-full object-contain" onError={(e) => {e.target.style.display = 'none'}} />
+                    <div className="w-16 h-16 bg-white rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg">
+                        <img src={getTeamLogo(game.homeAbbr, league)} alt={game.homeTeam} className="w-full h-full object-contain" onError={(e) => {e.target.style.display = 'none'}} />
                     </div>
                     <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-tight mt-1">{home.city}</div>
                     <div className="text-xl font-black text-white leading-none mt-0.5">{home.name}</div>
@@ -347,7 +348,7 @@
                         <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-3">
                             <div className="h-12 w-12 rounded-full overflow-hidden bg-slate-600 border border-slate-500 shrink-0 group-hover:border-blue-400 transition-colors">
-                            <img src={getPlayerHeadshot(player.playerId, leagueSlug)} alt={player.name} className="w-full h-full object-cover object-top pt-1" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }} />
+                            <img src={getPlayerHeadshot(player.playerId, league)} alt={player.name} className="w-full h-full object-cover object-top pt-1" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }} />
                             </div>
                             <div>
                             <h4 className="font-bold text-white flex items-center gap-2 text-sm sm:text-base group-hover:text-blue-400 transition-colors">{player.name}<ChevronRight size={14} className="opacity-0 -ml-1 group-hover:opacity-100 group-hover:ml-0 transition-all text-blue-400"/></h4>
@@ -374,7 +375,7 @@
             );
         };
 
-        const ParlayCard = ({ title, totalOdds, multiplier, type, items, theme, onSelect }) => {
+        const ParlayCard = ({ title, totalOdds, multiplier, type, items, theme, league, onSelect }) => {
             const isSafe = type === 'safe';
             const bgClass = theme === 'christmas'
                 ? (isSafe ? 'bg-gradient-to-br from-green-700/20 to-red-800/20 border-green-500/30' : 'bg-gradient-to-br from-yellow-600/20 to-red-700/20 border-yellow-500/30')
@@ -390,7 +391,6 @@
                     <div className="flex justify-between items-center mb-4"><h3 className={`font-black text-xl uppercase tracking-wider ${isSafe ? 'text-green-400' : 'text-indigo-400'}`}>{title}</h3><span className="bg-white/10 px-2 py-1 rounded text-xs font-mono text-white">{totalOdds}</span></div>
                     <ul className="space-y-3 mb-6">
                         {items.map((item, i) => {
-                            let leagueSlug = 'nfl';
                             return (
                                 <li key={i} className="flex items-center space-x-3 text-sm text-slate-300 border-b border-slate-800 pb-2 last:border-0">
                                     <div className="shrink-0 text-slate-500">
@@ -400,7 +400,7 @@
                                     {item.playerId && (
                                         <div className="h-6 w-6 rounded-full bg-slate-700 overflow-hidden border border-slate-600 shrink-0">
                                             <img 
-                                                src={getPlayerHeadshot(item.playerId, leagueSlug)} 
+                                                src={getPlayerHeadshot(item.playerId, league)} 
                                                 onError={(e) => e.target.style.display='none'}
                                                 className="w-full h-full object-cover" 
                                             />
@@ -410,7 +410,7 @@
                                     {item.team && (
                                         <div className="h-5 w-5 object-contain shrink-0">
                                             <img 
-                                                src={getTeamLogo(item.team, leagueSlug)}
+                                                src={getTeamLogo(item.team, league)}
                                                 onError={(e) => e.target.style.display='none'}
                                                 className="w-full h-full"
                                             />
@@ -593,7 +593,7 @@
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {FALLBACK_DATA.nfl.map((game) => (
-                                    <GameCard key={game.id} game={game} onSelectPlayer={setSelectedPlayer} theme={theme} />
+                                    <GameCard key={game.id} game={game} onSelectPlayer={setSelectedPlayer} theme={theme} league="nfl" />
                                 ))}
                             </div>
                             </div>
