@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BetLogic.win | NCAAF Bowl Predictions</title>
     
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7151608977843663" crossorigin="anonymous"></script>
+
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -89,24 +92,14 @@
 
         // --- CONFIGURATION ---
         const SEASON_YEAR = "2025";
-        
-        // Use a high-quality SVG data URI for the fallback to ensure it always renders immediately
         const FALLBACK_PLAYER_SVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23cbd5e1'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E";
-        
-        // Helper for League Slug
-        const getLeagueSlug = (league) => {
-            if (league === 'ncaa' || league === 'college-football') return 'ncaa'; 
-            return league;
-        };
 
-        // Helper for Team Logos (ESPN CDN)
-        const getTeamLogo = (identifier, league) => {
+        const getTeamLogo = (identifier) => {
             const teamCode = identifier.toString().toLowerCase();
             return `https://a.espncdn.com/i/teamlogos/ncaa/500/${teamCode}.png`;
         };
 
-        // Helper for Player Headshots - Using DIRECT path instead of combiner for reliability
-        const getPlayerHeadshot = (playerId, league) => {
+        const getPlayerHeadshot = (playerId) => {
             if (!playerId) return FALLBACK_PLAYER_SVG;
             return `https://a.espncdn.com/i/headshots/college-football/players/full/${playerId}.png`;
         };
@@ -120,83 +113,47 @@
 
         const FAVICON_SVG_STRING = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="2" y="2" width="28" height="28" rx="8" fill="%232563EB" /><path d="M10 6h12l-1 5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5l-1-5z" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 6L7 6a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h2" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 6l3 0a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-2" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 16v6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 22h8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-        // --- REAL WORLD BOWL SCHEDULE DATA (Dec 26 - Jan 5) ---
-        // Using IDs for teams to ensure logos load correct
+        // --- REAL WORLD BOWL SCHEDULE DATA ---
         const NCAAF_DATA = [
-            // DEC 26
             { 
-                id: 201, league: 'ncaa', 
-                homeTeam: "New Mexico Lobos", homeAbbr: "UNM", homeId: "167",
-                awayTeam: "Minnesota Golden Gophers", awayAbbr: "MINN", awayId: "135",
-                time: "Fri Dec 26, 3:30 PM CST", stadium: "Chase Field", status: "Rate Bowl", 
-                players: [{ name: "Darius Taylor", position: "RB", team: "MINN", playerId: "5139462", propType: "Anytime TD", odds: -150, probability: 85, result: null, rationale: "Minnesota pounds the rock. New Mexico allows 170+ rushing yards/game.", recentForm: [1, 2, 1, 0, 1], seasonStats: { "Rush Yds": "1,050", "TDs": "12" }, matchupStats: { "Opp Rush D": "115th", "Script": "Run Heavy" }, expandedAnalysis: "The Gophers offensive identity is perfect for this matchup. Expect Taylor to get 25+ touches as Minnesota controls the clock and the game." }] 
-            },
-            // DEC 27
-            { 
-                id: 202, league: 'ncaa', 
-                homeTeam: "Penn State Nittany Lions", homeAbbr: "PSU", homeId: "213",
-                awayTeam: "Clemson Tigers", awayAbbr: "CLEM", awayId: "228",
-                time: "Sat Dec 27, 11:00 AM CST", stadium: "Yankee Stadium", status: "Pinstripe Bowl", 
-                players: [{ name: "Cade Klubnik", position: "QB", team: "CLEM", playerId: "4430737", propType: "Over 225.5 Pass Yds", odds: -110, probability: 70, result: null, rationale: "Cold weather game, but Klubnik's arm is necessary vs PSU's stout run front.", recentForm: [1, 1, 1, 0, 2], seasonStats: { "Pass Yds": "2850", "TDs": "24" }, matchupStats: { "Opp Pass D": "14th", "Conditions": "Cold" }, expandedAnalysis: "PSU forces you to throw. While the conditions aren't ideal, Clemson will rely on quick game and RPO concepts to move the ball." }] 
+                id: 201, homeTeam: "New Mexico Lobos", homeAbbr: "UNM", homeId: "167", awayTeam: "Minnesota Golden Gophers", awayAbbr: "MINN", awayId: "135", time: "Fri Dec 26, 3:30 PM CST", stadium: "Chase Field", status: "Rate Bowl", 
+                players: [{ name: "Darius Taylor", position: "RB", team: "MINN", playerId: "5139462", propType: "Anytime TD", odds: -150, probability: 85, rationale: "Minnesota pounds the rock.", recentForm: [1, 2, 1, 0, 1] }] 
             },
             { 
-                id: 203, league: 'ncaa', 
-                homeTeam: "#22 Georgia Tech", homeAbbr: "GT", homeId: "59",
-                awayTeam: "#12 BYU Cougars", awayAbbr: "BYU", awayId: "252",
-                time: "Sat Dec 27, 2:30 PM CST", stadium: "Camping World Stadium", status: "Pop-Tarts Bowl", 
-                players: [{ name: "Haynes King", position: "QB", team: "GT", playerId: "4431587", propType: "Anytime TD", odds: +130, probability: 68, result: null, rationale: "King is an elite dual-threat. In bowl games, QBs run more in the red zone.", recentForm: [1, 0, 1, 1, 0], seasonStats: { "Rush TDs": "9", "Pass TDs": "25" }, matchupStats: { "Opp QB Run D": "70th", "Speed": "Advantage GT" }, expandedAnalysis: "BYU has struggled with athletic QBs in space. King is one of the fastest signal callers in the country and is the primary red zone rushing option." }] 
+                id: 202, homeTeam: "Penn State Nittany Lions", homeAbbr: "PSU", homeId: "213", awayTeam: "Clemson Tigers", awayAbbr: "CLEM", awayId: "228", time: "Sat Dec 27, 11:00 AM CST", stadium: "Yankee Stadium", status: "Pinstripe Bowl", 
+                players: [{ name: "Cade Klubnik", position: "QB", team: "CLEM", playerId: "4430737", propType: "Over 225.5 Pass Yds", odds: -110, probability: 70, rationale: "Cold weather game, but arm is necessary.", recentForm: [1, 1, 1, 0, 2] }] 
+            },
+            { 
+                id: 203, homeTeam: "#22 Georgia Tech", homeAbbr: "GT", homeId: "59", awayTeam: "#12 BYU Cougars", awayAbbr: "BYU", awayId: "252", time: "Sat Dec 27, 2:30 PM CST", stadium: "Camping World Stadium", status: "Pop-Tarts Bowl", 
+                players: [{ name: "Haynes King", position: "QB", team: "GT", playerId: "4431587", propType: "Anytime TD", odds: +130, probability: 68, rationale: "Elite dual-threat.", recentForm: [1, 0, 1, 1, 0] }] 
             },
              { 
-                id: 204, league: 'ncaa', 
-                homeTeam: "19 Virginia", homeAbbr: "UVA", homeId: "258",
-                awayTeam: "Missouri", awayAbbr: "MIZ", awayId: "142",
-                time: "Sat Dec 27, 6:30 PM CST", stadium: "EverBank Stadium", status: "Gator Bowl", 
-                players: [{ name: "Luther Burden III", position: "WR", team: "MIZ", playerId: "4870505", propType: "Anytime TD", odds: -125, probability: 80, result: null, rationale: "Best playmaker on the field. Mizzou gets him the ball in space.", recentForm: [1, 1, 0, 1, 2], seasonStats: { "Rec Yds": "1100", "TDs": "9" }, matchupStats: { "Opp Secondary": "Weak", "Targets": "High" }, expandedAnalysis: "Virginia's secondary can be exploited deep. Burden is a YAC monster and the primary redzone target for Brady Cook." }] 
-            },
-            // DEC 30
-            { 
-                id: 205, league: 'ncaa', 
-                homeTeam: "#16 USC Trojans", homeAbbr: "USC", homeId: "30",
-                awayTeam: "TCU Horned Frogs", awayAbbr: "TCU", awayId: "2628",
-                time: "Tue Dec 30, 8:00 PM CST", stadium: "Alamodome", status: "Alamo Bowl", 
-                players: [{ name: "Zachariah Branch", position: "WR", team: "USC", playerId: "5082697", propType: "Over 75.5 Rec Yds", odds: -115, probability: 75, result: null, rationale: "Fast track indoors. Branch is the most explosive player on the field.", recentForm: [0, 1, 1, 0, 1], seasonStats: { "Rec Yds": "950", "TDs": "8", "YAC": "Elite" }, matchupStats: { "Opp Speed": "Slow", "Turf": "Fast" }, expandedAnalysis: "The Alamodome is a track meet waiting to happen. TCU's secondary allows big plays, and Branch is a threat to score from anywhere on the field." }] 
-            },
-            // DEC 31
-            { 
-                id: 206, league: 'ncaa', 
-                homeTeam: "#18 Michigan Wolverines", homeAbbr: "MICH", homeId: "130",
-                awayTeam: "#13 Texas Longhorns", awayAbbr: "TEX", awayId: "251",
-                time: "Wed Dec 31, 2:00 PM CST", stadium: "Camping World Stadium", status: "Citrus Bowl", 
-                players: [{ name: "Arch Manning", position: "QB", team: "TEX", playerId: "4685160", propType: "2+ Passing TDs", odds: +120, probability: 70, result: null, rationale: "The future is now. Manning makes his big bowl start vs a tough defense.", recentForm: [1, 2, 2, 1, 3], seasonStats: { "Pass TDs": "18", "Int": "4" }, matchupStats: { "Opp Def": "Elite", "Motivation": "High" }, expandedAnalysis: "Sarkisian will want to showcase Manning heading into 2026. Despite Michigan's defense, the Texas skill talent is superior on the perimeter." }] 
+                id: 204, homeTeam: "19 Virginia", homeAbbr: "UVA", homeId: "258", awayTeam: "Missouri", awayAbbr: "MIZ", awayId: "142", time: "Sat Dec 27, 6:30 PM CST", stadium: "EverBank Stadium", status: "Gator Bowl", 
+                players: [{ name: "Luther Burden III", position: "WR", team: "MIZ", playerId: "4870505", propType: "Anytime TD", odds: -125, probability: 80, rationale: "Best playmaker on the field.", recentForm: [1, 1, 0, 1, 2] }] 
             },
             { 
-                id: 207, league: 'ncaa', 
-                homeTeam: "#10 Miami Hurricanes", homeAbbr: "MIA", homeId: "2390",
-                awayTeam: "#2 Ohio State Buckeyes", awayAbbr: "OSU", awayId: "194",
-                time: "Wed Dec 31, 6:30 PM CST", stadium: "AT&T Stadium", status: "Cotton Bowl", 
-                players: [{ name: "Jeremiah Smith", position: "WR", team: "OSU", playerId: "5174548", propType: "Anytime TD", odds: -125, probability: 80, result: null, rationale: "The best freshman WR in history. Miami secondary cannot cover him 1-on-1.", recentForm: [1, 1, 1, 0, 2], seasonStats: { "Total TDs": "14", "Rec Yds": "1,250" }, matchupStats: { "Opp Secondary": "Average", "Dome": "Perfect" }, expandedAnalysis: "Jeremiah Smith is a cheat code. In a controlled environment like Jerry World, he will feast. Expect 10+ targets and a score." }] 
-            },
-            // JAN 1 (CFP QUARTERS)
-            { 
-                id: 208, league: 'ncaa', 
-                homeTeam: "#5 Oregon Ducks", homeAbbr: "ORE", homeId: "2483",
-                awayTeam: "#4 Texas Tech Red Raiders", awayAbbr: "TTU", awayId: "2641",
-                time: "Thu Jan 1, 11:00 AM CST", stadium: "Hard Rock Stadium", status: "Orange Bowl", 
-                players: [{ name: "Jordan James", position: "RB", team: "ORE", playerId: "4876008", propType: "Anytime TD", odds: -180, probability: 88, result: null, rationale: "Oregon's physicality vs Tech's 'Air Raid' DNA. James gets the rock.", recentForm: [2, 1, 1, 1, 0], seasonStats: { "Rush TDs": "15", "Y/Carry": "6.1" }, matchupStats: { "Opp Rush D": "85th", "Size": "Advantage" }, expandedAnalysis: "Tech wants a shootout; Oregon wants to dominate the LOS. James will be the hammer that keeps the Tech offense on the sideline." }] 
+                id: 205, homeTeam: "#16 USC Trojans", homeAbbr: "USC", homeId: "30", awayTeam: "TCU Horned Frogs", awayAbbr: "TCU", awayId: "2628", time: "Tue Dec 30, 8:00 PM CST", stadium: "Alamodome", status: "Alamo Bowl", 
+                players: [{ name: "Zachariah Branch", position: "WR", team: "USC", playerId: "5082697", propType: "Over 75.5 Rec Yds", odds: -115, probability: 75, rationale: "Fast track indoors.", recentForm: [0, 1, 1, 0, 1] }] 
             },
             { 
-                id: 209, league: 'ncaa', 
-                homeTeam: "#9 Alabama Crimson Tide", homeAbbr: "ALA", homeId: "333",
-                awayTeam: "#1 Indiana Hoosiers", awayAbbr: "IND", awayId: "84",
-                time: "Thu Jan 1, 3:00 PM CST", stadium: "Rose Bowl", status: "Rose Bowl", 
-                players: [{ name: "Jalen Milroe", position: "QB", team: "ALA", playerId: "4430722", propType: "Anytime TD", odds: -110, probability: 76, result: null, rationale: "Milroe's legs are the X-factor in the CFP. Indiana hasn't seen speed like this.", recentForm: [1, 2, 0, 1, 1], seasonStats: { "Rush TDs": "14", "Pass TDs": "22" }, matchupStats: { "Opp QB Contain": "Untested", "Stage": "Big" }, expandedAnalysis: "Indiana's dream season meets Bama's talent. Milroe scrambling in the red zone is nearly indefensible. He will call his own number." }] 
+                id: 206, homeTeam: "#18 Michigan Wolverines", homeAbbr: "MICH", homeId: "130", awayTeam: "#13 Texas Longhorns", awayAbbr: "TEX", awayId: "251", time: "Wed Dec 31, 2:00 PM CST", stadium: "Camping World Stadium", status: "Citrus Bowl", 
+                players: [{ name: "Arch Manning", position: "QB", team: "TEX", playerId: "4685160", propType: "2+ Passing TDs", odds: +120, probability: 70, rationale: "The future is now.", recentForm: [1, 2, 2, 1, 3] }] 
             },
             { 
-                id: 210, league: 'ncaa', 
-                homeTeam: "#6 Ole Miss Rebels", homeAbbr: "MISS", homeId: "145",
-                awayTeam: "#3 Georgia Bulldogs", awayAbbr: "UGA", awayId: "61",
-                time: "Thu Jan 1, 7:00 PM CST", stadium: "Caesars Superdome", status: "Sugar Bowl", 
-                players: [{ name: "Tre Harris", position: "WR", team: "MISS", playerId: "4600213", propType: "Over 80.5 Rec Yds", odds: -115, probability: 74, result: null, rationale: "SEC Rematch. Harris is the only WR who can consistently win vs UGA DBs.", recentForm: [1, 0, 1, 1, 1], seasonStats: { "Rec Yds": "1,215", "TDs": "12" }, matchupStats: { "Opp Coverage": "Elite", "Volume": "High" }, expandedAnalysis: "Lane Kiffin will scheme touches for his best player. Georgia's defense is elite, but they allow yards between the 20s. Harris is the volume king." }] 
+                id: 207, homeTeam: "#10 Miami Hurricanes", homeAbbr: "MIA", homeId: "2390", awayTeam: "#2 Ohio State Buckeyes", awayAbbr: "OSU", awayId: "194", time: "Wed Dec 31, 6:30 PM CST", stadium: "AT&T Stadium", status: "Cotton Bowl", 
+                players: [{ name: "Jeremiah Smith", position: "WR", team: "OSU", playerId: "5174548", propType: "Anytime TD", odds: -125, probability: 80, rationale: "Best freshman WR in history.", recentForm: [1, 1, 1, 0, 2] }] 
+            },
+            { 
+                id: 208, homeTeam: "#5 Oregon Ducks", homeAbbr: "ORE", homeId: "2483", awayTeam: "#4 Texas Tech Red Raiders", awayAbbr: "TTU", awayId: "2641", time: "Thu Jan 1, 11:00 AM CST", stadium: "Hard Rock Stadium", status: "Orange Bowl", 
+                players: [{ name: "Jordan James", position: "RB", team: "ORE", playerId: "4876008", propType: "Anytime TD", odds: -180, probability: 88, rationale: "Oregon's physicality.", recentForm: [2, 1, 1, 1, 0] }] 
+            },
+            { 
+                id: 209, homeTeam: "#9 Alabama Crimson Tide", homeAbbr: "ALA", homeId: "333", awayTeam: "#1 Indiana Hoosiers", awayAbbr: "IND", awayId: "84", time: "Thu Jan 1, 3:00 PM CST", stadium: "Rose Bowl", status: "Rose Bowl", 
+                players: [{ name: "Jalen Milroe", position: "QB", team: "ALA", playerId: "4430722", propType: "Anytime TD", odds: -110, probability: 76, rationale: "Milroe's legs are the X-factor.", recentForm: [1, 2, 0, 1, 1] }] 
+            },
+            { 
+                id: 210, homeTeam: "#6 Ole Miss Rebels", homeAbbr: "MISS", homeId: "145", awayTeam: "#3 Georgia Bulldogs", awayAbbr: "UGA", awayId: "61", time: "Thu Jan 1, 7:00 PM CST", stadium: "Caesars Superdome", status: "Sugar Bowl", 
+                players: [{ name: "Tre Harris", position: "WR", team: "MISS", playerId: "4600213", propType: "Over 80.5 Rec Yds", odds: -115, probability: 74, rationale: "SEC Rematch.", recentForm: [1, 0, 1, 1, 1] }] 
             }
         ];
 
@@ -206,7 +163,7 @@
                 totalOdds: "+240", 
                 multiplier: 3.40, 
                 type: "safe", 
-                analysis: "Fading USC's defense is a profitable strategy. Backing Clemson's QB against a Pac-12 defense that travels poorly.",
+                analysis: "Fading USC's defense. Backing Clemson's QB against a Pac-12 defense.",
                 items: [
                     { text: "DJ Giddens Anytime TD", playerId: "4686259", team: "KSU", teamId: "2306" },
                     { text: "Cade Klubnik 2+ Pass TDs", playerId: "4430737", team: "CLEM", teamId: "228" }
@@ -217,7 +174,7 @@
                 totalOdds: "+650", 
                 multiplier: 7.5, 
                 type: "high", 
-                analysis: "High scoring affair expected in the Alamo Bowl. Notre Dame defense suffocates OK State, leading to short fields for Love.",
+                analysis: "High scoring affair in Alamo Bowl. ND defense suffocates OK State.",
                 items: [
                     { text: "K-State vs USC Over 62.5", playerId: null, team: "KSU", teamId: "2306" },
                     { text: "Jeremiyah Love Anytime TD", playerId: "4842187", team: "ND", teamId: "87" },
@@ -235,7 +192,10 @@
             return ( <div className="w-full bg-slate-700/50 rounded-full h-2.5 mt-2 overflow-hidden"><div className={`h-2.5 rounded-full ${colorClass} transition-all duration-1000 ease-out`} style={{ width: `${percentage}%` }}></div></div> );
         };
 
-        const RecentFormSparks = ({ data }) => ( <div className="flex items-end space-x-1 h-8">{data.map((val, idx) => (<div key={idx} className={`w-1.5 rounded-t-sm ${val > 0 ? 'bg-green-400' : 'bg-slate-600'}`} style={{ height: `${Math.max(20, (val + 0.5) * 33)}%` }} title={val > 0 ? "Hit" : "Miss"}></div>))}</div> );
+        const RecentFormSparks = ({ data }) => {
+            if (!data) return null;
+            return ( <div className="flex items-end space-x-1 h-8">{data.map((val, idx) => (<div key={idx} className={`w-1.5 rounded-t-sm ${val > 0 ? 'bg-green-400' : 'bg-slate-600'}`} style={{ height: `${Math.max(20, (val + 0.5) * 33)}%` }} title={val > 0 ? "Hit" : "Miss"}></div>))}</div> );
+        };
 
         const PlayerModal = ({ player, onClose }) => {
             if (!player) return null;
@@ -246,7 +206,7 @@
                     <button onClick={onClose} className="absolute top-4 right-4 z-10 p-2 bg-black/20 hover:bg-black/40 rounded-full text-slate-400 hover:text-white transition-colors"><X size={20} /></button>
                     <div className="relative bg-gradient-to-r from-slate-800 to-slate-900 p-8 flex flex-col sm:flex-row items-center sm:items-end gap-6 border-b border-slate-700">
                     <div className="w-32 h-32 rounded-full border-4 border-slate-700 bg-slate-800 overflow-hidden shadow-xl shrink-0">
-                        <img src={getPlayerHeadshot(player.playerId, 'ncaa')} alt={player.name} className="w-full h-full object-cover object-top pt-2" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_SVG; }} />
+                        <img src={getPlayerHeadshot(player.playerId)} alt={player.name} className="w-full h-full object-cover object-top pt-2" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_SVG; }} />
                     </div>
                     <div className="text-center sm:text-left">
                         <h2 className="text-3xl font-black text-white tracking-tight">{player.name}</h2>
@@ -267,7 +227,7 @@
                         <div key={key} className="bg-slate-800/50 p-3 rounded-lg border border-slate-700/50 text-center"><div className="text-[10px] text-slate-500 uppercase font-bold mb-1">{key}</div><div className="text-lg font-bold text-white">{value}</div></div>
                         ))}
                     </div>
-                    <div className="space-y-4"><h3 className="text-lg font-bold text-white flex items-center gap-2"><Activity className="text-blue-400" size={20}/> Model Analysis</h3><div className="bg-slate-800/30 p-5 rounded-xl border border-slate-700/50 leading-relaxed text-slate-300">{player.expandedAnalysis || player.rationale}</div></div>
+                    <div className="space-y-4"><h3 className="text-lg font-bold text-white flex items-center gap-2"><Activity className="text-blue-400" size={20}/> Model Analysis</h3><div className="bg-slate-800/30 p-5 rounded-xl border border-slate-700/50 leading-relaxed text-slate-300">{player.rationale}</div></div>
                     <div><h3 className="text-lg font-bold text-white flex items-center gap-2 mb-3"><Swords className="text-red-400" size={20}/> Matchup Intel</h3><div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {player.matchupStats && Object.entries(player.matchupStats).map(([key, value]) => (
                             <div key={key} className="flex justify-between items-center p-3 bg-slate-800/50 rounded-lg border-l-4 border-slate-600"><span className="text-sm text-slate-400">{key}</span><span className="font-bold text-white">{value}</span></div>
@@ -298,8 +258,8 @@
                                     <div key={i} className="flex items-center p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
                                         <div className="shrink-0 mr-3 text-slate-500"><Layers size={16} /></div>
                                         <div className="flex -space-x-2 mr-3">
-                                            {item.playerId && (<div className="h-8 w-8 rounded-full bg-white overflow-hidden border-2 border-slate-800 z-10"><img src={getPlayerHeadshot(item.playerId, 'ncaa')} className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_SVG; }}/></div>)}
-                                            {item.teamId && (<div className="h-8 w-8 rounded-full bg-white p-1 overflow-hidden border-2 border-slate-800 z-0 flex items-center justify-center"><img src={getTeamLogo(item.teamId, 'ncaa')} className="w-full h-full object-contain" onError={(e) => e.target.style.display='none'}/></div>)}
+                                            {item.playerId && (<div className="h-8 w-8 rounded-full bg-white overflow-hidden border-2 border-slate-800 z-10"><img src={getPlayerHeadshot(item.playerId)} className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_SVG; }}/></div>)}
+                                            {item.teamId && (<div className="h-8 w-8 rounded-full bg-white p-1 overflow-hidden border-2 border-slate-800 z-0 flex items-center justify-center"><img src={getTeamLogo(item.teamId)} className="w-full h-full object-contain" onError={(e) => e.target.style.display='none'}/></div>)}
                                         </div>
                                         <span className="font-bold text-slate-200 text-sm">{item.text}</span>
                                     </div>
@@ -328,7 +288,7 @@
                     <div className="absolute inset-0 bg-gradient-to-b from-slate-800 to-slate-900 opacity-50 z-0"></div>
                     <div className="text-center w-1/3 z-10 flex flex-col items-center">
                     <div className="w-16 h-16 bg-white rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg relative">
-                         <img src={getTeamLogo(game.awayId || game.awayAbbr, 'ncaa')} alt={game.awayTeam} className="w-full h-full object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
+                         <img src={getTeamLogo(game.awayId || game.awayAbbr)} alt={game.awayTeam} className="w-full h-full object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
                         <div className="absolute inset-0 flex items-center justify-center text-xs font-black text-slate-900" style={{zIndex: -1}}>{game.awayAbbr}</div>
                     </div>
                     <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-tight mt-1">{away.city}</div>
@@ -338,7 +298,7 @@
                     <div className="text-center w-1/3 z-10"><span className="text-slate-500 font-bold text-lg bg-slate-950/50 px-3 py-1 rounded-full border border-slate-800">VS</span></div>
                     <div className="text-center w-1/3 z-10 flex flex-col items-center">
                     <div className="w-16 h-16 bg-white rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg">
-                        <img src={getTeamLogo(game.homeId || game.homeAbbr, 'ncaa')} alt={game.homeTeam} className="w-full h-full object-contain" onError={(e) => {e.target.style.display = 'none'}} />
+                        <img src={getTeamLogo(game.homeId || game.homeAbbr)} alt={game.homeTeam} className="w-full h-full object-contain" onError={(e) => {e.target.style.display = 'none'}} />
                     </div>
                     <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-tight mt-1">{home.city}</div>
                     <div className="text-xl font-black text-white leading-none mt-0.5">{home.name}</div>
@@ -356,7 +316,7 @@
                         <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-3">
                             <div className="h-12 w-12 rounded-full overflow-hidden bg-slate-600 border border-slate-500 shrink-0 group-hover:border-blue-400 transition-colors">
-                            <img src={getPlayerHeadshot(player.playerId, 'ncaa')} alt={player.name} className="w-full h-full object-cover object-top pt-1" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_SVG; }} />
+                            <img src={getPlayerHeadshot(player.playerId)} alt={player.name} className="w-full h-full object-cover object-top pt-1" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_SVG; }} />
                             </div>
                             <div>
                             <h4 className="font-bold text-white flex items-center gap-2 text-sm sm:text-base group-hover:text-blue-400 transition-colors">{player.name}<ChevronRight size={14} className="opacity-0 -ml-1 group-hover:opacity-100 group-hover:ml-0 transition-all text-blue-400"/></h4>
@@ -406,9 +366,9 @@
                                     </div>
                                     
                                     {item.playerId && (
-                                        <div className="h-6 w-6 rounded-full bg-white overflow-hidden border-2 border-slate-600 shrink-0">
+                                        <div className="h-6 w-6 rounded-full bg-slate-700 overflow-hidden border border-slate-600 shrink-0">
                                             <img 
-                                                src={getPlayerHeadshot(item.playerId, 'ncaa')} 
+                                                src={getPlayerHeadshot(item.playerId)} 
                                                 onError={(e) => e.target.style.display='none'}
                                                 className="w-full h-full object-cover" 
                                             />
@@ -418,7 +378,7 @@
                                     {item.teamId && (
                                         <div className="h-5 w-5 object-contain shrink-0">
                                             <img 
-                                                src={getTeamLogo(item.teamId, 'ncaa')}
+                                                src={getTeamLogo(item.teamId)}
                                                 onError={(e) => e.target.style.display='none'}
                                                 className="w-full h-full"
                                             />
@@ -504,14 +464,21 @@
                              {['nfl', 'ncaa', 'nba', 'nhl', 'ncaab', 'boxing'].map(league => (
                                  <button 
                                     key={league}
-                                    onClick={() => league === 'nfl' ? window.location.href='index.html' : setSelectedLeague(league)} 
+                                    onClick={() => {
+                                        if (league === 'nfl') window.location.href='index.html';
+                                        else if (league === 'ncaa') return; // already here
+                                        else if (league === 'nba') window.location.href='nba.html';
+                                        else if (league === 'nhl') window.location.href='nhl.html';
+                                        else if (league === 'ncaab') window.location.href='ncaab.html';
+                                        else if (league === 'boxing') window.location.href='boxing.html';
+                                    }} 
                                     className={`px-4 py-1.5 rounded-md text-sm font-bold transition-all uppercase ${
                                         selectedLeague === league 
                                         ? (theme === 'christmas' ? 'bg-green-600 text-white shadow-lg' : 'bg-blue-600 text-white shadow-lg') 
                                         : 'text-slate-400 hover:text-white'
                                     }`}
                                  >
-                                    {league === 'ncaa' ? 'NCAAF' : league}
+                                    {league === 'ncaa' ? 'NCAAF' : (league === 'ncaab' ? 'CBB' : (league === 'boxing' ? 'BOX' : league))}
                                  </button>
                              ))}
                         </div>
@@ -522,14 +489,21 @@
                          {['nfl', 'ncaa', 'nba', 'nhl', 'ncaab', 'boxing'].map(league => (
                              <button 
                                 key={league}
-                                onClick={() => league === 'nfl' ? window.location.href='index.html' : setSelectedLeague(league)} 
+                                onClick={() => {
+                                    if (league === 'nfl') window.location.href='index.html';
+                                    else if (league === 'ncaa') return; // already here
+                                    else if (league === 'nba') window.location.href='nba.html';
+                                    else if (league === 'nhl') window.location.href='nhl.html';
+                                    else if (league === 'ncaab') window.location.href='ncaab.html';
+                                    else if (league === 'boxing') window.location.href='boxing.html';
+                                }}
                                 className={`flex-1 min-w-[50px] py-1.5 rounded-md text-xs font-bold transition-all uppercase ${
                                     selectedLeague === league 
                                     ? (theme === 'christmas' ? 'bg-green-600 text-white' : 'bg-blue-600 text-white') 
                                     : 'bg-slate-800 text-slate-400'
                                 }`}
                              >
-                                {league}
+                                {league === 'ncaa' ? 'NCAAF' : (league === 'ncaab' ? 'CBB' : (league === 'boxing' ? 'BOX' : league))}
                              </button>
                          ))}
                      </div>
