@@ -3,16 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Primary SEO Tags -->
-    <title>BetLogic.win | NFL Week 17 Analytics</title>
-    <meta name="title" content="BetLogic.win | NFL Week 17 Advanced Analytics & Prop Picks">
-    <meta name="description" content="Dominate Week 17 with BetLogic.win. Free advanced analytics, predictive modeling, and data-driven player prop picks for the NFL. Don't just bet, bet with logic.">
-    <meta name="keywords" content="sports betting, NFL picks, NFL Week 17, player props, free betting analytics, sports prediction model, BetLogic, winning bets">
-    <meta name="author" content="BetLogic.win">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://betlogic.win/">
-    <meta name="theme-color" content="#0f172a">
-
+    <title>BetLogic.win | NBA Schedule & Props</title>
+    
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -72,58 +64,33 @@
         const { useState, useMemo, useEffect } = React;
         
         // --- ICONS ---
-        const Icon = ({ children, size = 24, className = "", ...props }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
-                {children}
-            </svg>
-        );
-        const Calendar = (props) => <Icon {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></Icon>;
-        const TrendingUp = (props) => <Icon {...props}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></Icon>;
-        const Trophy = (props) => <Icon {...props}><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></Icon>;
-        const Activity = (props) => <Icon {...props}><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></Icon>;
-        const ChevronRight = (props) => <Icon {...props}><path d="m9 18 6-6-6-6"/></Icon>;
-        const ShieldCheck = (props) => <Icon {...props}><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></Icon>;
-        const Zap = (props) => <Icon {...props}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Icon>;
-        const BarChart3 = (props) => <Icon {...props}><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></Icon>;
+        const Icon = ({ children, size = 24, className = "", ...props }) => (<svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>{children}</svg>);
         const Clock = (props) => <Icon {...props}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></Icon>;
-        const X = (props) => <Icon {...props}><path d="M18 6 6 18"/><path d="m6 6 18 12"/></Icon>;
-        const Target = (props) => <Icon {...props}><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></Icon>;
-        const Swords = (props) => <Icon {...props}><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/></Icon>;
-        const CheckCircle = (props) => <Icon {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></Icon>;
-        const XCircle = (props) => <Icon {...props}><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></Icon>;
-        const DollarSign = (props) => <Icon {...props}><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></Icon>;
+        const Trophy = (props) => <Icon {...props}><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></Icon>;
         const Gift = (props) => <Icon {...props}><polyline points="20 12 20 22 4 22 4 12"/><rect width="20" height="5" x="2" y="7"/><line x1="12" x2="12" y1="22" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></Icon>;
         const Snowflake = (props) => <Icon {...props}><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></Icon>;
+        const Zap = (props) => <Icon {...props}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Icon>;
+        const BarChart3 = (props) => <Icon {...props}><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></Icon>;
+        const X = (props) => <Icon {...props}><path d="M18 6 6 18"/><path d="m6 6 18 12"/></Icon>;
+        const Target = (props) => <Icon {...props}><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></Icon>;
+        const Activity = (props) => <Icon {...props}><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></Icon>;
+        const Swords = (props) => <Icon {...props}><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/></Icon>;
+        const ChevronRight = (props) => <Icon {...props}><path d="m9 18 6-6-6-6"/></Icon>;
+        const CheckCircle = (props) => <Icon {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></Icon>;
+        const XCircle = (props) => <Icon {...props}><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></Icon>;
+        const ShieldCheck = (props) => <Icon {...props}><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></Icon>;
+        const TrendingUp = (props) => <Icon {...props}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></Icon>;
         const Layers = (props) => <Icon {...props}><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></Icon>;
-        const Construction = (props) => <Icon {...props}><rect x="2" y="6" width="20" height="8" rx="1"/><path d="M17 14v7"/><path d="M7 14v7"/><path d="M17 3v3"/><path d="M7 3v3"/><path d="M10 14 2.3 6.3"/><path d="m14 6 7.7 7.7"/><path d="m8 6 8 8"/></Icon>;
 
-        // --- CONFIGURATION / DATA SECTION ---
+        // --- CONFIGURATION ---
         const SEASON_YEAR = "2025";
-        const FALLBACK_PLAYER_IMG = "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/0.png&w=350&h=254";
+        const FALLBACK_PLAYER_IMG = "https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/0.png&w=350&h=254";
 
-        // Helper for League Slug
-        const getLeagueSlug = (league) => {
-            if (league === 'ncaa') return 'college-football';
-            if (league === 'ncaab') return 'mens-college-basketball';
-            if (league === 'boxing') return 'boxing';
-            return league; // nfl, nba, nhl
-        };
-
-        // Helper for Team Logos (ESPN CDN)
-        const getTeamLogo = (abbr, league) => {
-            if (league === 'boxing') return `https://via.placeholder.com/500/000000/FFFFFF?text=${abbr}`; 
-            const slug = getLeagueSlug(league);
-            return `https://a.espncdn.com/i/teamlogos/${slug}/500/${abbr.toLowerCase()}.png`;
-        };
-
-        // Helper for Player Headshots (ESPN CDN)
-        const getPlayerHeadshot = (playerId, league) => {
-            let slug = getLeagueSlug(league);
+        const getTeamLogo = (abbr) => `https://a.espncdn.com/i/teamlogos/nba/500/${abbr.toLowerCase()}.png`;
+        const getPlayerHeadshot = (playerId) => {
             if (!playerId) return FALLBACK_PLAYER_IMG;
-            return `https://a.espncdn.com/combiner/i?img=/i/headshots/${slug}/players/full/${playerId}.png&w=350&h=254`;
+            return `https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/${playerId}.png&w=350&h=254`;
         };
-
-        // Helper to split full team name into City/Location and Mascot Name
         const splitTeamName = (fullName) => {
             const parts = fullName.split(' ');
             const name = parts.pop();
@@ -133,101 +100,104 @@
 
         const FAVICON_SVG_STRING = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="2" y="2" width="28" height="28" rx="8" fill="%232563EB" /><path d="M10 6h12l-1 5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5l-1-5z" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 6L7 6a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h2" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 6l3 0a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-2" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 16v6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 22h8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-        // --- FALLBACK DATA ---
-        const FALLBACK_DATA = {
-            meta: { seasonYear: "2024-25" },
-            nfl: [
-                // CHRISTMAS DAY
-                { id: 1, league: 'nfl', homeTeam: "Kansas City Chiefs", homeAbbr: "KC", awayTeam: "Denver Broncos", awayAbbr: "DEN", time: "Thu Dec 25, 7:15 PM CST", stadium: "GEHA Field at Arrowhead", status: "Christmas Night", players: [{ name: "Isiah Pacheco", position: "RB", team: "KC", playerId: "4697968", propType: "Anytime TD", odds: -130, probability: 84, result: null, rationale: "Pacheco is the engine of the Chiefs' red zone offense. Denver allows 4.8 YPC on the road.", recentForm: [1, 2, 0, 1, 1], seasonStats: { "Rush TDs": "12", "Rush Yds": "1,050", "Rec Yds": "350" }, matchupStats: { "Opp Rank vs Run": "24th", "Weather": "Cold" }, expandedAnalysis: "In late-season divisional games at Arrowhead, Andy Reid relies heavily on the ground game. Pacheco's violent running style wears down the Broncos front seven." }] },
-                
-                // SATURDAY
-                { id: 2, league: 'nfl', homeTeam: "Los Angeles Chargers", homeAbbr: "LAC", awayTeam: "Houston Texans", awayAbbr: "HOU", time: "Sat Dec 27, 3:30 PM CST", stadium: "SoFi Stadium", status: "Saturday Football", players: [{ name: "Joe Mixon", position: "RB", team: "HOU", playerId: "3051389", propType: "Anytime TD", odds: -115, probability: 72, result: null, rationale: "Mixon sees massive volume in Houston's offense. Chargers run D is middle of the pack.", recentForm: [1, 1, 0, 2, 1], seasonStats: { "Rush TDs": "11", "Rush Yds": "1,080", "Att": "235" }, matchupStats: { "Opp Rank vs Run": "15th", "RZC": "High" }, expandedAnalysis: "With Stroud leading the way, Mixon gets plenty of light boxes. He is the unquestioned goal-line back for a high-scoring offense." }] },
-                { id: 3, league: 'nfl', homeTeam: "Green Bay Packers", homeAbbr: "GB", awayTeam: "Baltimore Ravens", awayAbbr: "BAL", time: "Sat Dec 27, 7:00 PM CST", stadium: "Lambeau Field", status: "Saturday Night", players: [{ name: "Derrick Henry", position: "RB", team: "BAL", playerId: "3043078", propType: "Anytime TD", odds: -160, probability: 88, result: null, rationale: "King Henry in December at Lambeau. It's a script written for a power back.", recentForm: [1, 2, 1, 1, 1], seasonStats: { "Rush TDs": "15", "Rush Yds": "1,320", "Y/Carry": "5.4" }, matchupStats: { "Opp Rank vs Run": "20th", "Weather": "Frozen" }, expandedAnalysis: "Packers struggle with physical runners. In freezing temps, Baltimore won't throw much. Henry 25+ carries lock." }] },
-
-                // SUNDAY KEY GAMES
-                { id: 4, league: 'nfl', homeTeam: "Buffalo Bills", homeAbbr: "BUF", awayTeam: "Philadelphia Eagles", awayAbbr: "PHI", time: "Sun Dec 28, 3:25 PM CST", stadium: "Highmark Stadium", status: "Week 17", players: [{ name: "Saquon Barkley", position: "RB", team: "PHI", playerId: "3929630", propType: "Anytime TD", odds: -110, probability: 80, result: null, rationale: "Saquon is the Eagles' MVP. Bills run defense allows big plays.", recentForm: [2, 1, 0, 1, 2], seasonStats: { "Total TDs": "16", "Scrimmage Yds": "1,450" }, matchupStats: { "Opp Rank vs Run": "22nd", "Gap Control": "Poor" }, expandedAnalysis: "In a potential Super Bowl preview, expect the Eagles to control the clock with Saquon. He is explosive and gets goal line carries alongside the Tush Push." }] },
-                { id: 5, league: 'nfl', homeTeam: "San Francisco 49ers", homeAbbr: "SF", awayTeam: "Chicago Bears", awayAbbr: "CHI", time: "Sun Dec 28, 7:20 PM CST", stadium: "Levi's Stadium", status: "SNF", players: [{ name: "Christian McCaffrey", position: "RB", team: "SF", playerId: "3117251", propType: "Anytime TD", odds: -220, probability: 92, result: null, rationale: "CMC at home on SNF. Shanahan will want to secure seeding.", recentForm: [1, 2, 1, 1, 1], seasonStats: { "Total TDs": "18", "Scrimmage Yds": "1,600" }, matchupStats: { "Opp Rank vs RB": "10th", "Surface": "Grass" }, expandedAnalysis: "The Bears defense has improved, but McCaffrey is matchup-proof. He is the first, second, and third option in the red zone." }] },
-                
-                // MONDAY
-                { id: 6, league: 'nfl', homeTeam: "Atlanta Falcons", homeAbbr: "ATL", awayTeam: "Los Angeles Rams", awayAbbr: "LAR", time: "Mon Dec 29, 7:15 PM CST", stadium: "Mercedes-Benz Stadium", status: "MNF", players: [{ name: "Bijan Robinson", position: "RB", team: "ATL", playerId: "4430800", propType: "Anytime TD", odds: -120, probability: 82, result: null, rationale: "Fast track indoors. Bijan's versatility vs Rams LBs is a huge edge.", recentForm: [1, 0, 2, 0, 1], seasonStats: { "Total TDs": "12", "Rec Yds": "450", "Rush Yds": "950" }, matchupStats: { "Opp Rank vs Pass RB": "28th", "Speed": "Advantage ATL" }, expandedAnalysis: "The Rams allow a ton of production to RBs in the passing game. Bijan should feast in space on the fast turf of Atlanta." }] }
+        // --- FULL SCHEDULE DATA ---
+        const NBA_DATA = {
+            "2025-12-25": [ // CHRISTMAS
+                { id: 1, homeTeam: "New York Knicks", homeAbbr: "NYK", awayTeam: "Cleveland Cavaliers", awayAbbr: "CLE", time: "11:00 AM CST", stadium: "Madison Square Garden", status: "Christmas Day",
+                  players: [{ name: "Jalen Brunson", position: "PG", team: "NYK", playerId: "3934672", propType: "Over 29.5 Points", odds: -115, probability: 78, rationale: "MSG on Christmas. Brunson thrives in the spotlight.", recentForm: [1, 1, 0, 1, 1], seasonStats: { "PPG": "27.8" }, expandedAnalysis: "Cavs perimeter defense struggles against smaller, crafty guards. Expect high usage." }] },
+                { id: 2, homeTeam: "Oklahoma City Thunder", homeAbbr: "OKC", awayTeam: "San Antonio Spurs", awayAbbr: "SAS", time: "1:30 PM CST", stadium: "Paycom Center", status: "Christmas Day",
+                  players: [{ name: "Victor Wembanyama", position: "C", team: "SAS", playerId: "5104157", propType: "3+ Blocks", odds: -140, probability: 82, rationale: "Rivalry game vs Chet. Wemby protects the rim against OKC drivers.", recentForm: [1, 1, 0, 1, 0], seasonStats: { "BPG": "3.8" }, expandedAnalysis: "OKC attacks the paint relentlessly, giving Wemby ample opportunities for blocks." }] },
+                { id: 3, homeTeam: "Golden State Warriors", homeAbbr: "GSW", awayTeam: "Dallas Mavericks", awayAbbr: "DAL", time: "4:00 PM CST", stadium: "Chase Center", status: "Christmas Day",
+                  players: [{ name: "Luka Doncic", position: "PG", team: "DAL", playerId: "3945274", propType: "Over 8.5 Assists", odds: -125, probability: 75, rationale: "High pace game. Luka will find shooters in transition.", recentForm: [0, 1, 1, 0, 1], seasonStats: { "APG": "9.8" }, expandedAnalysis: "Warriors defense collapses on drives, leaving corners open." }] },
+                { id: 4, homeTeam: "Los Angeles Lakers", homeAbbr: "LAL", awayTeam: "Houston Rockets", awayAbbr: "HOU", time: "7:00 PM CST", stadium: "Crypto.com Arena", status: "Christmas Day",
+                  players: [{ name: "LeBron James", position: "SF", team: "LAL", playerId: "1966", propType: "Over 24.5 Points", odds: -110, probability: 70, rationale: "King James on Christmas. It's a tradition.", recentForm: [1, 0, 1, 1, 0], seasonStats: { "PPG": "24.5" }, expandedAnalysis: "Rockets young wings can be baited into fouls. LeBron will get to the line." }] },
+                { id: 5, homeTeam: "Denver Nuggets", homeAbbr: "DEN", awayTeam: "Minnesota Timberwolves", awayAbbr: "MIN", time: "9:30 PM CST", stadium: "Ball Arena", status: "Christmas Night",
+                  players: [{ name: "Anthony Edwards", position: "SG", team: "MIN", playerId: "4432809", propType: "Over 27.5 Points", odds: -115, probability: 74, rationale: "Ant loves the spotlight. Denver perimeter D is weak.", recentForm: [1, 1, 0, 1, 1], seasonStats: { "PPG": "28.4" }, expandedAnalysis: "Edwards will attack the rim aggressively against Jokic." }] }
             ],
-            // Empty for other sports as requested
-            ncaa: [], nba: [], nhl: [], ncaab: [], boxing: []
+            "2025-12-26": [ // FRIDAY
+                { id: 6, homeTeam: "Atlanta Hawks", homeAbbr: "ATL", awayTeam: "Miami Heat", awayAbbr: "MIA", time: "6:00 PM CST", stadium: "State Farm Arena", status: "Fri Night", players: [{ name: "Trae Young", team: "ATL", playerId: "4277905", propType: "Over 10.5 Ast", odds: -110, probability: 68, rationale: "Trae vs Heat zone equals assist opportunities.", recentForm: [0, 1, 0, 1, 1] }] },
+                { id: 7, homeTeam: "Orlando Magic", homeAbbr: "ORL", awayTeam: "Charlotte Hornets", awayAbbr: "CHA", time: "6:00 PM CST", stadium: "Kia Center", status: "Fri Night", players: [{ name: "Paolo Banchero", team: "ORL", playerId: "4432165", propType: "Over 22.5 Pts", odds: -120, probability: 75, rationale: "Hornets defense allows paint points.", recentForm: [1, 1, 1, 1, 0] }] },
+                { id: 8, homeTeam: "Washington Wizards", homeAbbr: "WAS", awayTeam: "Toronto Raptors", awayAbbr: "TOR", time: "6:00 PM CST", stadium: "Capital One Arena", status: "Fri Night", players: [{ name: "Scottie Barnes", team: "TOR", playerId: "4278361", propType: "Over 1.5 Steals", odds: +120, probability: 60, rationale: "Wizards turnover prone.", recentForm: [1, 0, 1, 1, 1] }] },
+                { id: 9, homeTeam: "Indiana Pacers", homeAbbr: "IND", awayTeam: "Boston Celtics", awayAbbr: "BOS", time: "6:00 PM CST", stadium: "Gainbridge Fieldhouse", status: "Fri Night", players: [{ name: "Jayson Tatum", team: "BOS", playerId: "4065648", propType: "Over 28.5 Pts", odds: -115, probability: 78, rationale: "Pacers play fast, lots of possessions.", recentForm: [1, 1, 1, 0, 1] }] },
+                { id: 10, homeTeam: "Chicago Bulls", homeAbbr: "CHI", awayTeam: "Philadelphia 76ers", awayAbbr: "PHI", time: "6:30 PM CST", stadium: "United Center", status: "Fri Night", players: [{ name: "Joel Embiid", team: "PHI", playerId: "3059318", propType: "Over 11.5 Reb", odds: -125, probability: 80, rationale: "Bulls lack size inside.", recentForm: [1, 0, 1, 1, 1] }] },
+                { id: 11, homeTeam: "Memphis Grizzlies", homeAbbr: "MEM", awayTeam: "Milwaukee Bucks", awayAbbr: "MIL", time: "7:00 PM CST", stadium: "FedExForum", status: "Fri Night", players: [{ name: "Giannis Antetokounmpo", team: "MIL", playerId: "3032977", propType: "Over 30.5 Pts", odds: -110, probability: 72, rationale: "Grizzlies frontcourt is thin.", recentForm: [1, 1, 1, 1, 1] }] },
+                { id: 12, homeTeam: "New Orleans Pelicans", homeAbbr: "NOP", awayTeam: "Phoenix Suns", awayAbbr: "PHX", time: "7:00 PM CST", stadium: "Smoothie King Center", status: "Fri Night", players: [{ name: "Devin Booker", team: "PHX", playerId: "3136193", propType: "Over 25.5 Pts", odds: -115, probability: 70, rationale: "Suns need offense, Booker usage up.", recentForm: [0, 1, 1, 0, 1] }] },
+                { id: 13, homeTeam: "Utah Jazz", homeAbbr: "UTA", awayTeam: "Detroit Pistons", awayAbbr: "DET", time: "8:30 PM CST", stadium: "Delta Center", status: "Fri Night", players: [{ name: "Lauri Markkanen", team: "UTA", playerId: "4066336", propType: "Over 2.5 3PM", odds: -130, probability: 65, rationale: "Pistons perimeter D struggles.", recentForm: [1, 1, 0, 1, 0] }] },
+                { id: 14, homeTeam: "Portland Trail Blazers", homeAbbr: "POR", awayTeam: "LA Clippers", awayAbbr: "LAC", time: "9:00 PM CST", stadium: "Moda Center", status: "Fri Night", players: [{ name: "Kawhi Leonard", team: "LAC", playerId: "6450", propType: "Over 1.5 Stl", odds: +110, probability: 60, rationale: "Blazers young guards turn it over.", recentForm: [0, 1, 1, 1, 0] }] }
+            ],
+            "2025-12-27": [ // SATURDAY
+                { id: 15, homeTeam: "Sacramento Kings", homeAbbr: "SAC", awayTeam: "Dallas Mavericks", awayAbbr: "DAL", time: "4:00 PM CST", stadium: "Golden 1 Center", status: "Sat Matinee", players: [{ name: "De'Aaron Fox", team: "SAC", playerId: "4066259", propType: "Over 26.5 Pts", odds: -110, probability: 72, rationale: "Fast paced game expected.", recentForm: [1, 1, 0, 1, 1] }] },
+                { id: 16, homeTeam: "Orlando Magic", homeAbbr: "ORL", awayTeam: "Denver Nuggets", awayAbbr: "DEN", time: "6:00 PM CST", stadium: "Kia Center", status: "Sat Night", players: [{ name: "Nikola Jokic", team: "DEN", playerId: "3112335", propType: "Triple Double", odds: +180, probability: 40, rationale: "Jokic fills stat sheet vs young teams.", recentForm: [0, 1, 1, 0, 1] }] },
+                { id: 17, homeTeam: "New Orleans Pelicans", homeAbbr: "NOP", awayTeam: "Phoenix Suns", awayAbbr: "PHX", time: "6:00 PM CST", stadium: "Smoothie King Center", status: "Sat Night", players: [{ name: "Zion Williamson", team: "NOP", playerId: "4395628", propType: "Over 24.5 Pts", odds: -115, probability: 75, rationale: "Suns lack interior defense.", recentForm: [1, 1, 0, 1, 0] }] },
+                { id: 18, homeTeam: "Atlanta Hawks", homeAbbr: "ATL", awayTeam: "New York Knicks", awayAbbr: "NYK", time: "7:00 PM CST", stadium: "State Farm Arena", status: "Sat Night", players: [{ name: "Jalen Brunson", team: "NYK", playerId: "3934672", propType: "Over 6.5 Ast", odds: -120, probability: 68, rationale: "Hawks pace allows for stats.", recentForm: [1, 0, 1, 1, 1] }] },
+                { id: 19, homeTeam: "Miami Heat", homeAbbr: "MIA", awayTeam: "Indiana Pacers", awayAbbr: "IND", time: "7:00 PM CST", stadium: "Kaseya Center", status: "Sat Night", players: [{ name: "Tyrese Haliburton", team: "IND", playerId: "4396993", propType: "Over 11.5 Ast", odds: -110, probability: 70, rationale: "Heat zone requires passing.", recentForm: [1, 1, 1, 0, 1] }] },
+                { id: 20, homeTeam: "Chicago Bulls", homeAbbr: "CHI", awayTeam: "Milwaukee Bucks", awayAbbr: "MIL", time: "7:00 PM CST", stadium: "United Center", status: "Sat Night", players: [{ name: "Zach LaVine", team: "CHI", playerId: "3064440", propType: "Over 2.5 3PM", odds: -125, probability: 65, rationale: "Bucks give up 3s.", recentForm: [1, 0, 0, 1, 1] }] },
+                { id: 21, homeTeam: "Houston Rockets", homeAbbr: "HOU", awayTeam: "Cleveland Cavaliers", awayAbbr: "CLE", time: "7:00 PM CST", stadium: "Toyota Center", status: "Sat Night", players: [{ name: "Alperen Sengun", team: "HOU", playerId: "4871609", propType: "Over 9.5 Reb", odds: -110, probability: 68, rationale: "Allen vs Sengun battle.", recentForm: [1, 1, 1, 0, 0] }] },
+                { id: 22, homeTeam: "Minnesota Timberwolves", homeAbbr: "MIN", awayTeam: "Brooklyn Nets", awayAbbr: "BKN", time: "7:00 PM CST", stadium: "Target Center", status: "Sat Night", players: [{ name: "Anthony Edwards", team: "MIN", playerId: "4432809", propType: "Over 25.5 Pts", odds: -130, probability: 80, rationale: "Nets defense is poor.", recentForm: [1, 1, 1, 1, 1] }] },
+                { id: 23, homeTeam: "San Antonio Spurs", homeAbbr: "SAS", awayTeam: "Utah Jazz", awayAbbr: "UTA", time: "7:00 PM CST", stadium: "Frost Bank Center", status: "Sat Night", players: [{ name: "Victor Wembanyama", team: "SAS", playerId: "5104157", propType: "Double Double", odds: -150, probability: 85, rationale: "Jazz frontcourt is small.", recentForm: [1, 1, 1, 1, 1] }] }
+            ],
+            "2025-12-28": [ // SUNDAY
+                { id: 24, homeTeam: "Toronto Raptors", homeAbbr: "TOR", awayTeam: "Golden State Warriors", awayAbbr: "GSW", time: "2:30 PM CST", stadium: "Scotiabank Arena", status: "Sun Matinee", players: [{ name: "Steph Curry", team: "GSW", playerId: "3975", propType: "Over 4.5 3PM", odds: -110, probability: 70, rationale: "Raptors perimeter D leaks.", recentForm: [1, 0, 1, 1, 1] }] },
+                { id: 25, homeTeam: "Oklahoma City Thunder", homeAbbr: "OKC", awayTeam: "Philadelphia 76ers", awayAbbr: "PHI", time: "2:30 PM CST", stadium: "Paycom Center", status: "Sun Matinee", players: [{ name: "Shai Gilgeous-Alexander", team: "OKC", playerId: "4278073", propType: "Over 30.5 Pts", odds: -115, probability: 78, rationale: "MVP candidate vs Embiid.", recentForm: [1, 1, 1, 0, 1] }] },
+                { id: 26, homeTeam: "Washington Wizards", homeAbbr: "WAS", awayTeam: "Memphis Grizzlies", awayAbbr: "MEM", time: "5:00 PM CST", stadium: "Capital One Arena", status: "Sun Eve", players: [{ name: "Ja Morant", team: "MEM", playerId: "4279888", propType: "Over 24.5 Pts", odds: -120, probability: 75, rationale: "Wizards paint protection is bad.", recentForm: [1, 1, 0, 1, 0] }] },
+                { id: 27, homeTeam: "Portland Trail Blazers", homeAbbr: "POR", awayTeam: "Boston Celtics", awayAbbr: "BOS", time: "5:00 PM CST", stadium: "Moda Center", status: "Sun Eve", players: [{ name: "Jaylen Brown", team: "BOS", playerId: "3917376", propType: "Over 22.5 Pts", odds: -115, probability: 70, rationale: "Blazers defense struggles.", recentForm: [0, 1, 1, 1, 0] }] },
+                { id: 28, homeTeam: "LA Clippers", homeAbbr: "LAC", awayTeam: "Detroit Pistons", awayAbbr: "DET", time: "8:00 PM CST", stadium: "Intuit Dome", status: "Sun Night", players: [{ name: "James Harden", team: "LAC", playerId: "3992", propType: "Over 8.5 Ast", odds: -130, probability: 76, rationale: "Pick and roll vs Pistons.", recentForm: [1, 1, 1, 0, 1] }] },
+                { id: 29, homeTeam: "Los Angeles Lakers", homeAbbr: "LAL", awayTeam: "Sacramento Kings", awayAbbr: "SAC", time: "8:30 PM CST", stadium: "Crypto.com Arena", status: "Sun Night", players: [{ name: "Anthony Davis", team: "LAL", playerId: "6583", propType: "Over 12.5 Reb", odds: -110, probability: 74, rationale: "Sabonis matchup is physical.", recentForm: [1, 1, 0, 1, 1] }] }
+            ],
+            "2025-12-29": [ // MONDAY
+                { id: 30, homeTeam: "Charlotte Hornets", homeAbbr: "CHA", awayTeam: "Milwaukee Bucks", awayAbbr: "MIL", time: "6:00 PM CST", stadium: "Spectrum Center", status: "Mon Night", players: [{ name: "LaMelo Ball", team: "CHA", playerId: "4432816", propType: "Over 7.5 Ast", odds: -115, probability: 72, rationale: "High pace matchup.", recentForm: [1, 1, 1, 0, 1] }] },
+                { id: 31, homeTeam: "Washington Wizards", homeAbbr: "WAS", awayTeam: "Phoenix Suns", awayAbbr: "PHX", time: "6:00 PM CST", stadium: "Capital One Arena", status: "Mon Night", players: [{ name: "Kevin Durant", team: "PHX", playerId: "3202", propType: "Over 26.5 Pts", odds: -120, probability: 78, rationale: "Homecoming game vibes.", recentForm: [1, 1, 0, 1, 1] }] }
+            ],
+            "2025-12-30": [ // TUESDAY
+                { id: 32, homeTeam: "Memphis Grizzlies", homeAbbr: "MEM", awayTeam: "Philadelphia 76ers", awayAbbr: "PHI", time: "7:00 PM CST", stadium: "FedExForum", status: "Tue Night", players: [{ name: "Jaren Jackson Jr.", team: "MEM", playerId: "4277961", propType: "Over 1.5 Blk", odds: -140, probability: 80, rationale: "Embiid challenges the rim.", recentForm: [1, 1, 1, 1, 1] }] }
+            ],
+            "2025-12-31": [ // WEDNESDAY
+                { id: 33, homeTeam: "Charlotte Hornets", homeAbbr: "CHA", awayTeam: "Golden State Warriors", awayAbbr: "GSW", time: "12:00 PM CST", stadium: "Spectrum Center", status: "NYE Matinee", players: [{ name: "Steph Curry", team: "GSW", playerId: "3975", propType: "Over 25.5 Pts", odds: -115, probability: 75, rationale: "Curry vs Ball showdown.", recentForm: [1, 0, 1, 1, 1] }] }
+            ]
         };
 
-        const PARLAY_DATA = {
-            nfl: [
-                { 
-                    title: "Christmas Lock", 
-                    totalOdds: "+250", 
-                    multiplier: 3.50, 
-                    type: "safe", 
-                    analysis: "Backing the two biggest stars on Christmas weekend. Derrick Henry in cold weather against a team that struggles with physicality, and Pacheco as the goal line hammer for KC.",
-                    items: [
-                        { text: "Isiah Pacheco Anytime TD", playerId: "4697968", team: "KC" },
-                        { text: "Derrick Henry Anytime TD", playerId: "3043078", team: "BAL" }
-                    ]
-                },
-                { 
-                    title: "Week 17 Value", 
-                    totalOdds: "+900", 
-                    multiplier: 10.0, 
-                    type: "high", 
-                    analysis: "Saquon in a shootout with Josh Allen. CMC on SNF is free money. Bijan indoors on Monday night. A high-upside parlay relying on elite usage rates.",
-                    items: [
-                        { text: "Bijan Robinson Anytime TD", playerId: "4430800", team: "ATL" },
-                        { text: "Saquon Barkley Anytime TD", playerId: "3929630", team: "PHI" },
-                        { text: "Christian McCaffrey Anytime TD", playerId: "3117251", team: "SF" }
-                    ]
-                }
-            ],
-            ncaa: [], nba: [], nhl: [], ncaab: [], boxing: []
-        };
+        const PARLAYS = [
+            { 
+                title: "Christmas Star Power", 
+                totalOdds: "+450", 
+                multiplier: 5.5, 
+                type: "safe", 
+                analysis: "Betting on the faces of the league to show up on the biggest regular season day.",
+                items: [
+                    { text: "Jalen Brunson 25+ Pts", playerId: "3934672", team: "NYK" },
+                    { text: "Victor Wembanyama 3+ Blks", playerId: "5104157", team: "SAS" },
+                    { text: "LeBron James 6+ Ast", playerId: "1966", team: "LAL" }
+                ]
+            },
+            { 
+                title: "West Coast Shootout", 
+                totalOdds: "+850", 
+                multiplier: 9.5, 
+                type: "high", 
+                analysis: "Correlating high pace in the late games. Luka and Curry trading threes.",
+                items: [
+                    { text: "Luka Doncic 30+ Pts", playerId: "3945274", team: "DAL" },
+                    { text: "Steph Curry 4+ 3PM", playerId: "3975", team: "GSW" },
+                    { text: "Anthony Edwards 30+ Pts", playerId: "4432809", team: "MIN" }
+                ]
+            }
+        ];
 
-        // --- SNOWFALL COMPONENT ---
-        const Snowflakes = () => (
-            <div className="fixed inset-0 pointer-events-none z-0">
-                {[...Array(12)].map((_, i) => (
-                    <div key={i} className="snowflake"><Snowflake size={16} /></div>
-                ))}
-            </div>
-        );
+        // --- COMPONENTS ---
+        const Snowflakes = () => ( <div className="fixed inset-0 pointer-events-none z-0">{[...Array(12)].map((_, i) => (<div key={i} className="snowflake"><Snowflake size={16} /></div>))}</div> );
 
-        // --- HELPER COMPONENTS ---
-
-        const ProbabilityBar = ({ percentage, result }) => {
+        const ProbabilityBar = ({ percentage }) => {
             let colorClass = "bg-blue-500";
-            if (percentage >= 90) colorClass = "bg-green-500";
-            else if (percentage >= 75) colorClass = "bg-emerald-400";
-            else if (percentage >= 60) colorClass = "bg-yellow-400";
-            else colorClass = "bg-orange-400";
-
-            return (
-                <div className="w-full bg-slate-700/50 rounded-full h-2.5 mt-2 overflow-hidden">
-                <div className={`h-2.5 rounded-full ${colorClass} transition-all duration-1000 ease-out`} style={{ width: `${percentage}%` }}></div>
-                </div>
-            );
+            if (percentage >= 90) colorClass = "bg-green-500"; else if (percentage >= 75) colorClass = "bg-emerald-400"; else if (percentage >= 60) colorClass = "bg-yellow-400"; else colorClass = "bg-orange-400";
+            return ( <div className="w-full bg-slate-700/50 rounded-full h-2.5 mt-2 overflow-hidden"><div className={`h-2.5 rounded-full ${colorClass} transition-all duration-1000 ease-out`} style={{ width: `${percentage}%` }}></div></div> );
         };
 
-        const RecentFormSparks = ({ data }) => (
-            <div className="flex items-end space-x-1 h-8">
-                {data.map((val, idx) => (
-                <div key={idx} className={`w-1.5 rounded-t-sm ${val > 0 ? 'bg-green-400' : 'bg-slate-600'}`} style={{ height: `${Math.max(20, (val + 0.5) * 33)}%` }} title={val > 0 ? "Hit" : "Miss"}></div>
-                ))}
-            </div>
-        );
+        const RecentFormSparks = ({ data }) => {
+            if (!data) return null;
+            return ( <div className="flex items-end space-x-1 h-8">{data.map((val, idx) => (<div key={idx} className={`w-1.5 rounded-t-sm ${val > 0 ? 'bg-green-400' : 'bg-slate-600'}`} style={{ height: `${Math.max(20, (val + 0.5) * 33)}%` }} title={val > 0 ? "Hit" : "Miss"}></div>))}</div> );
+        };
 
-        const UnderConstruction = () => (
-            <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-                <div className="bg-yellow-500/10 p-6 rounded-full mb-6 border border-yellow-500/20">
-                    <div className="text-yellow-500"><Activity size={48} /></div>
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-2">Season Not Active</h3>
-                <p className="text-slate-400 max-w-md">Our predictive models for this sport are currently calibrating. Check back later for real-time analytics.</p>
-            </div>
-        );
-
-        const PlayerModal = ({ player, league, onClose }) => {
+        const PlayerModal = ({ player, onClose }) => {
             if (!player) return null;
             return (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -236,7 +206,7 @@
                     <button onClick={onClose} className="absolute top-4 right-4 z-10 p-2 bg-black/20 hover:bg-black/40 rounded-full text-slate-400 hover:text-white transition-colors"><X size={20} /></button>
                     <div className="relative bg-gradient-to-r from-slate-800 to-slate-900 p-8 flex flex-col sm:flex-row items-center sm:items-end gap-6 border-b border-slate-700">
                     <div className="w-32 h-32 rounded-full border-4 border-slate-700 bg-slate-800 overflow-hidden shadow-xl shrink-0">
-                        <img src={getPlayerHeadshot(player.playerId, league)} alt={player.name} className="w-full h-full object-cover object-top pt-2" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }} />
+                        <img src={getPlayerHeadshot(player.playerId, 'nba')} alt={player.name} className="w-full h-full object-cover object-top pt-2" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }} />
                     </div>
                     <div className="text-center sm:text-left">
                         <h2 className="text-3xl font-black text-white tracking-tight">{player.name}</h2>
@@ -269,7 +239,7 @@
             );
         };
 
-        const ParlayModal = ({ parlay, league, onClose }) => {
+        const ParlayModal = ({ parlay, onClose }) => {
             if (!parlay) return null;
             return (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -288,8 +258,8 @@
                                     <div key={i} className="flex items-center p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
                                         <div className="shrink-0 mr-3 text-slate-500"><Layers size={16} /></div>
                                         <div className="flex -space-x-2 mr-3">
-                                            {item.playerId && (<div className="h-8 w-8 rounded-full bg-slate-700 overflow-hidden border-2 border-slate-800 z-10"><img src={getPlayerHeadshot(item.playerId, league)} className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }}/></div>)}
-                                            {item.team && (<div className="h-8 w-8 rounded-full bg-slate-800 p-1 overflow-hidden border-2 border-slate-800 z-0 flex items-center justify-center"><img src={getTeamLogo(item.team, league)} className="w-full h-full object-contain" onError={(e) => e.target.style.display='none'}/></div>)}
+                                            {item.playerId && (<div className="h-8 w-8 rounded-full bg-slate-700 overflow-hidden border-2 border-slate-800 z-10"><img src={getPlayerHeadshot(item.playerId, 'nba')} className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }}/></div>)}
+                                            {item.teamId && (<div className="h-8 w-8 rounded-full bg-slate-800 p-1 overflow-hidden border-2 border-slate-800 z-0 flex items-center justify-center"><img src={getTeamLogo(item.teamId)} className="w-full h-full object-contain" onError={(e) => e.target.style.display='none'}/></div>)}
                                         </div>
                                         <span className="font-bold text-slate-200 text-sm">{item.text}</span>
                                     </div>
@@ -306,7 +276,6 @@
         const GameCard = ({ game, onSelectPlayer, theme }) => {
             const away = splitTeamName(game.awayTeam);
             const home = splitTeamName(game.homeTeam);
-            let leagueSlug = 'nfl';
             let leagueColor = theme === 'christmas' ? 'bg-red-900/20 text-green-400 border-red-500/30' : 'bg-blue-900/30 text-blue-400 border-blue-500/30';
 
             return (
@@ -318,8 +287,8 @@
                 <div className="p-6 flex justify-between items-center relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-b from-slate-800 to-slate-900 opacity-50 z-0"></div>
                     <div className="text-center w-1/3 z-10 flex flex-col items-center">
-                    <div className="w-16 h-16 bg-white/5 rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg relative">
-                         <img src={getTeamLogo(game.awayAbbr, leagueSlug)} alt={game.awayTeam} className="w-full h-full object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
+                    <div className="w-16 h-16 bg-white rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg relative">
+                         <img src={getTeamLogo(game.awayAbbr)} alt={game.awayTeam} className="w-full h-full object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
                         <div className="absolute inset-0 flex items-center justify-center text-xs font-black text-slate-900" style={{zIndex: -1}}>{game.awayAbbr}</div>
                     </div>
                     <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-tight mt-1">{away.city}</div>
@@ -328,8 +297,8 @@
                     </div>
                     <div className="text-center w-1/3 z-10"><span className="text-slate-500 font-bold text-lg bg-slate-950/50 px-3 py-1 rounded-full border border-slate-800">VS</span></div>
                     <div className="text-center w-1/3 z-10 flex flex-col items-center">
-                    <div className="w-16 h-16 bg-white/5 rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg">
-                        <img src={getTeamLogo(game.homeAbbr, leagueSlug)} alt={game.homeTeam} className="w-full h-full object-contain" onError={(e) => {e.target.style.display = 'none'}} />
+                    <div className="w-16 h-16 bg-white rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg">
+                        <img src={getTeamLogo(game.homeAbbr)} alt={game.homeTeam} className="w-full h-full object-contain" onError={(e) => {e.target.style.display = 'none'}} />
                     </div>
                     <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-tight mt-1">{home.city}</div>
                     <div className="text-xl font-black text-white leading-none mt-0.5">{home.name}</div>
@@ -347,7 +316,7 @@
                         <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-3">
                             <div className="h-12 w-12 rounded-full overflow-hidden bg-slate-600 border border-slate-500 shrink-0 group-hover:border-blue-400 transition-colors">
-                            <img src={getPlayerHeadshot(player.playerId, leagueSlug)} alt={player.name} className="w-full h-full object-cover object-top pt-1" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }} />
+                            <img src={getPlayerHeadshot(player.playerId)} alt={player.name} className="w-full h-full object-cover object-top pt-1" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }} />
                             </div>
                             <div>
                             <h4 className="font-bold text-white flex items-center gap-2 text-sm sm:text-base group-hover:text-blue-400 transition-colors">{player.name}<ChevronRight size={14} className="opacity-0 -ml-1 group-hover:opacity-100 group-hover:ml-0 transition-all text-blue-400"/></h4>
@@ -390,33 +359,13 @@
                     <div className="flex justify-between items-center mb-4"><h3 className={`font-black text-xl uppercase tracking-wider ${isSafe ? 'text-green-400' : 'text-indigo-400'}`}>{title}</h3><span className="bg-white/10 px-2 py-1 rounded text-xs font-mono text-white">{totalOdds}</span></div>
                     <ul className="space-y-3 mb-6">
                         {items.map((item, i) => {
-                            let leagueSlug = 'nfl';
                             return (
                                 <li key={i} className="flex items-center space-x-3 text-sm text-slate-300 border-b border-slate-800 pb-2 last:border-0">
                                     <div className="shrink-0 text-slate-500">
                                         {isSafe ? <ShieldCheck size={14} className="text-green-500" /> : <TrendingUp size={14} className="text-purple-500" />}
                                     </div>
-                                    
-                                    {item.playerId && (
-                                        <div className="h-6 w-6 rounded-full bg-slate-700 overflow-hidden border border-slate-600 shrink-0">
-                                            <img 
-                                                src={getPlayerHeadshot(item.playerId, leagueSlug)} 
-                                                onError={(e) => e.target.style.display='none'}
-                                                className="w-full h-full object-cover" 
-                                            />
-                                        </div>
-                                    )}
-
-                                    {item.team && (
-                                        <div className="h-5 w-5 object-contain shrink-0">
-                                            <img 
-                                                src={getTeamLogo(item.team, leagueSlug)}
-                                                onError={(e) => e.target.style.display='none'}
-                                                className="w-full h-full"
-                                            />
-                                        </div>
-                                    )}
-
+                                    {item.playerId && (<div className="h-6 w-6 rounded-full bg-slate-700 overflow-hidden border border-slate-600 shrink-0"><img src={getPlayerHeadshot(item.playerId)} onError={(e) => e.target.style.display='none'} className="w-full h-full object-cover" /></div>)}
+                                    {item.teamId && (<div className="h-5 w-5 object-contain shrink-0"><img src={getTeamLogo(item.teamId)} onError={(e) => e.target.style.display='none'} className="w-full h-full" /></div>)}
                                     <span className="leading-tight">{item.text}</span>
                                 </li>
                             );
@@ -437,7 +386,7 @@
         };
 
         const App = () => {
-            const [selectedLeague, setSelectedLeague] = useState('nfl');
+            const [selectedDate, setSelectedDate] = useState("2025-12-25"); // Default to Christmas
             const [selectedPlayer, setSelectedPlayer] = useState(null);
             const [selectedParlay, setSelectedParlay] = useState(null); 
             const [theme, setTheme] = useState('standard');
@@ -463,8 +412,18 @@
                 link.type = 'image/svg+xml';
                 link.href = `data:image/svg+xml,${encodeURIComponent(FAVICON_SVG_STRING)}`;
             }, []);
+            
+            const DATES = [
+                { key: "2025-12-25", label: "Christmas Day" },
+                { key: "2025-12-26", label: "Fri Dec 26" },
+                { key: "2025-12-27", label: "Sat Dec 27" },
+                { key: "2025-12-28", label: "Sun Dec 28" },
+                { key: "2025-12-29", label: "Mon Dec 29" },
+                { key: "2025-12-30", label: "Tue Dec 30" },
+                { key: "2025-12-31", label: "Wed Dec 31" }
+            ];
 
-            const currentParlays = PARLAY_DATA[selectedLeague] || [];
+            const currentGames = NBA_DATA[selectedDate] || [];
 
             return (
                 <div className={`min-h-screen font-sans pb-12 relative ${theme === 'christmas' ? 'bg-slate-950 text-slate-100 selection:bg-red-500/30' : 'bg-slate-950 text-slate-200 selection:bg-blue-500/30'}`}>
@@ -472,10 +431,10 @@
                 {theme === 'christmas' && <Snowflakes />}
 
                 {/* Player Modal */}
-                <PlayerModal player={selectedPlayer} league={selectedLeague} onClose={() => setSelectedPlayer(null)} />
+                <PlayerModal player={selectedPlayer} league="nba" onClose={() => setSelectedPlayer(null)} />
 
                 {/* Parlay Modal */}
-                <ParlayModal parlay={selectedParlay} league={selectedLeague} onClose={() => setSelectedParlay(null)} />
+                <ParlayModal parlay={selectedParlay} league="nba" onClose={() => setSelectedParlay(null)} />
 
                 {/* Navigation Bar */}
                 <nav className={`border-b backdrop-blur-md sticky top-0 z-50 ${theme === 'christmas' ? 'bg-red-950/80 border-red-900' : 'bg-slate-900/50 border-slate-800'}`}>
@@ -488,7 +447,7 @@
                         <div>
                             <span className="text-xl font-black tracking-tighter text-white">BET<span className={theme === 'christmas' ? 'text-green-400' : 'text-blue-500'}>LOGIC</span>.WIN</span>
                             <span className="text-[10px] block text-slate-500 font-mono -mt-1 tracking-widest uppercase">
-                                {theme === 'christmas' ? 'Holiday Edition 2025' : `Predictive Analytics ${FALLBACK_DATA.meta?.seasonYear || "2025"}`}
+                                {theme === 'christmas' ? 'Holiday Edition 2025' : `Predictive Analytics ${SEASON_YEAR}`}
                             </span>
                         </div>
                         </div>
@@ -499,12 +458,12 @@
                                  <button 
                                     key={league}
                                     onClick={() => {
-                                        if (league === 'ncaa') window.location.href='NCAAF.html';
-                                        else if (league === 'nba') window.location.href='NBA.html'; // ADDED LINK
-                                        else setSelectedLeague(league);
+                                        if (league === 'nfl') window.location.href='index.html';
+                                        else if (league === 'ncaa') window.location.href='NCAAF.html';
+                                        else if (league === 'nba') return; // already here
                                     }} 
                                     className={`px-4 py-1.5 rounded-md text-sm font-bold transition-all uppercase ${
-                                        selectedLeague === league 
+                                        league === 'nba' 
                                         ? (theme === 'christmas' ? 'bg-green-600 text-white shadow-lg' : 'bg-blue-600 text-white shadow-lg') 
                                         : 'text-slate-400 hover:text-white'
                                     }`}
@@ -521,12 +480,12 @@
                              <button 
                                 key={league}
                                 onClick={() => {
-                                    if (league === 'ncaa') window.location.href='NCAAF.html';
-                                    else if (league === 'nba') window.location.href='NBA.html';
-                                    else setSelectedLeague(league);
+                                    if (league === 'nfl') window.location.href='index.html';
+                                    else if (league === 'ncaa') window.location.href='NCAAF.html';
+                                    else if (league === 'nba') return; // already here
                                 }}
                                 className={`flex-1 min-w-[50px] py-1.5 rounded-md text-xs font-bold transition-all uppercase ${
-                                    selectedLeague === league 
+                                    league === 'nba' 
                                     ? (theme === 'christmas' ? 'bg-green-600 text-white' : 'bg-blue-600 text-white') 
                                     : 'bg-slate-800 text-slate-400'
                                 }`}
@@ -538,75 +497,87 @@
                 </nav>
 
                 <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
-                    
-                    {/* Hero Section */}
                     <div className="mb-12">
                     <h1 className="text-3xl md:text-5xl font-black text-white mb-4 flex flex-wrap items-center gap-x-3 gap-y-2">
                         <span className={`text-transparent bg-clip-text bg-gradient-to-r leading-tight py-1 ${
                             theme === 'christmas' ? 'from-green-400 via-red-400 to-amber-300' : 'from-blue-400 to-emerald-400'}`}>
-                            {selectedLeague === 'nfl' ? 'NFL Week 17' : 'Under Construction'}
+                            NBA Holiday Hoops
                         </span> 
                         <span className="text-white whitespace-nowrap leading-tight">
-                            {selectedLeague === 'nfl' ? 'Top TD Props' : ''}
+                            Daily Projections
                         </span>
                     </h1>
                     <p className={`text-xl font-bold mb-3 ${theme === 'christmas' ? 'text-green-400' : 'text-blue-400'}`}>
                         Don't just bet, bet with logic.
                     </p>
                     <p className="text-slate-400 max-w-2xl text-lg">
-                        {selectedLeague === 'nfl' ? "Statistical analysis and matchup-based predictions for Week 17 NFL action." : "Our predictive models for this sport are currently calibrating. Check back later for real-time analytics."}
+                        Statistical analysis and matchup-based predictions for Week 10 & 11 of the 2025-26 NBA Season.
                     </p>
                     </div>
 
-                    {selectedLeague === 'nfl' ? (
-                        <>
-                            {/* Parlay Recommendations */}
-                            <div className="mb-12">
-                                <div className="flex items-center gap-2 mb-6">
-                                    <Zap className={theme === 'christmas' ? 'text-green-400' : 'text-yellow-400'} />
-                                    <h2 className="text-2xl font-bold text-white">Recommended Parlays</h2>
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {currentParlays.map((parlay, idx) => (
-                                        <ParlayCard 
-                                            key={idx}
-                                            title={parlay.title}
-                                            totalOdds={parlay.totalOdds}
-                                            multiplier={parlay.multiplier}
-                                            type={parlay.type}
-                                            items={parlay.items}
-                                            theme={theme}
-                                            league={selectedLeague}
-                                            onSelect={() => setSelectedParlay(parlay)}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
+                    <div className="mb-12">
+                        <div className="flex items-center gap-2 mb-6">
+                            <Zap className={theme === 'christmas' ? 'text-green-400' : 'text-yellow-400'} />
+                            <h2 className="text-2xl font-bold text-white">Recommended Parlays</h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {PARLAYS.map((parlay, idx) => (
+                                <ParlayCard 
+                                    key={idx}
+                                    title={parlay.title}
+                                    totalOdds={parlay.totalOdds}
+                                    multiplier={parlay.multiplier}
+                                    type={parlay.type}
+                                    items={parlay.items}
+                                    theme={theme}
+                                    league="nba"
+                                    onSelect={() => setSelectedParlay(parlay)}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    
+                    {/* Date Selector */}
+                    <div className="flex gap-2 overflow-x-auto pb-4 mb-4 no-scrollbar">
+                        {DATES.map(date => (
+                            <button 
+                                key={date.key}
+                                onClick={() => setSelectedDate(date.key)}
+                                className={`px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap transition-all ${
+                                    selectedDate === date.key 
+                                    ? (theme === 'christmas' ? 'bg-red-600 text-white' : 'bg-blue-600 text-white')
+                                    : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
+                                }`}
+                            >
+                                {date.label}
+                            </button>
+                        ))}
+                    </div>
 
-                            {/* Main Stats Grid */}
-                            <div className="mb-8">
-                            <div className="flex items-center justify-between mb-6">
-                                <div className="flex items-center gap-2"><BarChart3 className={theme === 'christmas' ? 'text-green-400' : 'text-blue-400'} /><h2 className="text-2xl font-bold text-white">Matchup Analysis</h2></div>
-                                 <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ${
-                                     theme === 'christmas' ? 'bg-red-900/50 text-green-300 border border-white/10' : 'bg-blue-500/20 text-blue-400'
-                                 }`}>NFL PRO</span>
+                    <div className="mb-8">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-2"><BarChart3 className={theme === 'christmas' ? 'text-green-400' : 'text-blue-400'} /><h2 className="text-2xl font-bold text-white">Matchup Analysis</h2></div>
+                         <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ${
+                             theme === 'christmas' ? 'bg-red-900/50 text-green-300 border border-white/10' : 'bg-blue-500/20 text-blue-400'
+                         }`}>NBA</span>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {currentGames.length > 0 ? (
+                            currentGames.map((game) => (
+                                <GameCard key={game.id} game={game} onSelectPlayer={setSelectedPlayer} theme={theme} league="nba" />
+                            ))
+                        ) : (
+                            <div className="col-span-full text-center text-slate-500 py-10 bg-slate-900/50 rounded-xl border border-slate-800">
+                                No games scheduled for this date or data pending.
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {FALLBACK_DATA.nfl.map((game) => (
-                                    <GameCard key={game.id} game={game} onSelectPlayer={setSelectedPlayer} theme={theme} />
-                                ))}
-                            </div>
-                            </div>
-                        </>
-                    ) : (
-                        <UnderConstruction />
-                    )}
+                        )}
+                    </div>
+                    </div>
                 </main>
 
-                {/* Footer */}
                 <footer className={`border-t mt-12 py-8 ${theme === 'christmas' ? 'bg-red-950/20 border-red-900/30' : 'bg-slate-900 border-slate-800'}`}>
                     <div className="max-w-7xl mx-auto px-4 text-center">
-                    <p className="text-slate-500 text-sm">© {FALLBACK_DATA.meta?.seasonYear || "2025"} BetLogic.win Analytics. Data is for entertainment purposes only.</p>
+                    <p className="text-slate-500 text-sm">© {SEASON_YEAR} BetLogic.win Analytics. Data is for entertainment purposes only.</p>
                     <div className="flex justify-center gap-4 mt-4"><span className="text-xs text-slate-600 px-2 py-1 border border-slate-700 rounded">React</span><span className="text-xs text-slate-600 px-2 py-1 border border-slate-700 rounded">Tailwind</span><span className="text-xs text-slate-600 px-2 py-1 border border-slate-700 rounded">JSON Data</span></div>
                     </div>
                 </footer>
