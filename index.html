@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Primary SEO Tags -->
+    <title>BetLogic.win | NFL Week 17 Analytics</title>
+    <meta name="title" content="BetLogic.win | NFL Week 17 Advanced Analytics & Prop Picks">
+    <meta name="description" content="Dominate Week 17 with BetLogic.win. Free advanced analytics, predictive modeling, and data-driven player prop picks for the NFL. Don't just bet, bet with logic.">
+    <meta name="keywords" content="sports betting, NFL picks, NFL Week 17, player props, free betting analytics, sports prediction model, BetLogic, winning bets">
+    <meta name="author" content="BetLogic.win">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://betlogic.win/">
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load React & ReactDOM (Stable) -->
+    <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+    
+    <!-- Load Babel Standalone -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+        /* Snowfall Animation */
+        .snowflake {
+            color: #fff;
+            font-size: 1em;
+            font-family: Arial;
+            text-shadow: 0 0 1px #000;
+            position: fixed;
+            top: -10%;
+            z-index: 0;
+            user-select: none;
+            cursor: default;
+            animation-name: snowflakes-fall, snowflakes-shake;
+            animation-duration: 10s, 3s;
+            animation-timing-function: linear, ease-in-out;
+            animation-iteration-count: infinite, infinite;
+            animation-play-state: running, running;
+            pointer-events: none;
+        }
+        @keyframes snowflakes-fall { 0% { top: -10%; } 100% { top: 100%; } }
+        @keyframes snowflakes-shake { 0% { transform: translateX(0px); } 50% { transform: translateX(80px); } 100% { transform: translateX(0px); } }
+        .snowflake:nth-of-type(0) { left: 1%; animation-delay: 0s, 0s; }
+        .snowflake:nth-of-type(1) { left: 10%; animation-delay: 1s, 1s; }
+        .snowflake:nth-of-type(2) { left: 20%; animation-delay: 6s, .5s; }
+        .snowflake:nth-of-type(3) { left: 30%; animation-delay: 4s, 2s; }
+        .snowflake:nth-of-type(4) { left: 40%; animation-delay: 2s, 2s; }
+        .snowflake:nth-of-type(5) { left: 50%; animation-delay: 8s, 3s; }
+        .snowflake:nth-of-type(6) { left: 60%; animation-delay: 6s, 2s; }
+        .snowflake:nth-of-type(7) { left: 70%; animation-delay: 2.5s, 1s; }
+        .snowflake:nth-of-type(8) { left: 80%; animation-delay: 1s, 0s; }
+        .snowflake:nth-of-type(9) { left: 90%; animation-delay: 3s, 1.5s; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useMemo, useEffect } = React;
+        
+        // --- ICONS ---
+        const Icon = ({ children, size = 24, className = "", ...props }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
+                {children}
+            </svg>
+        );
+        const Calendar = (props) => <Icon {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></Icon>;
+        const TrendingUp = (props) => <Icon {...props}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></Icon>;
+        const Trophy = (props) => <Icon {...props}><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></Icon>;
+        const Activity = (props) => <Icon {...props}><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></Icon>;
+        const ChevronRight = (props) => <Icon {...props}><path d="m9 18 6-6-6-6"/></Icon>;
+        const ShieldCheck = (props) => <Icon {...props}><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></Icon>;
+        const Zap = (props) => <Icon {...props}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Icon>;
+        const BarChart3 = (props) => <Icon {...props}><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></Icon>;
+        const Clock = (props) => <Icon {...props}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></Icon>;
+        const X = (props) => <Icon {...props}><path d="M18 6 6 18"/><path d="m6 6 18 12"/></Icon>;
+        const Target = (props) => <Icon {...props}><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></Icon>;
+        const Swords = (props) => <Icon {...props}><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/></Icon>;
+        const CheckCircle = (props) => <Icon {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></Icon>;
+        const XCircle = (props) => <Icon {...props}><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></Icon>;
+        const DollarSign = (props) => <Icon {...props}><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></Icon>;
+        const Gift = (props) => <Icon {...props}><polyline points="20 12 20 22 4 22 4 12"/><rect width="20" height="5" x="2" y="7"/><line x1="12" x2="12" y1="22" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></Icon>;
+        const Snowflake = (props) => <Icon {...props}><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></Icon>;
+        const Layers = (props) => <Icon {...props}><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></Icon>;
+        const Construction = (props) => <Icon {...props}><rect x="2" y="6" width="20" height="8" rx="1"/><path d="M17 14v7"/><path d="M7 14v7"/><path d="M17 3v3"/><path d="M7 3v3"/><path d="M10 14 2.3 6.3"/><path d="m14 6 7.7 7.7"/><path d="m8 6 8 8"/></Icon>;
+
+        // --- CONFIGURATION / DATA SECTION ---
+        const SEASON_YEAR = "2025";
+
+        // FALLBACK IMAGES
+        const FALLBACK_TEAM_LOGO = "https://a.espncdn.com/i/teamlogos/nfl/500/nfl.png";
+        const FALLBACK_PLAYER_IMG = "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/0.png&w=350&h=254";
+
+        // Helper for Team Logos (ESPN CDN)
+        const getTeamLogo = (abbr) => {
+             return `https://a.espncdn.com/i/teamlogos/nfl/500/${abbr.toLowerCase()}.png`;
+        };
+
+        // Helper for Player Headshots (ESPN CDN)
+        const getPlayerHeadshot = (playerId) => {
+            if (!playerId) return FALLBACK_PLAYER_IMG;
+            return `https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${playerId}.png&w=350&h=254`;
+        };
+
+        // Helper to split full team name into City/Location and Mascot Name
+        const splitTeamName = (fullName) => {
+            const parts = fullName.split(' ');
+            const name = parts.pop();
+            const city = parts.join(' ');
+            return { city, name };
+        };
+
+        const FAVICON_SVG_STRING = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="2" y="2" width="28" height="28" rx="8" fill="%232563EB" /><path d="M10 6h12l-1 5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5l-1-5z" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 6L7 6a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h2" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 6l3 0a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-2" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 16v6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 22h8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+        // --- FALLBACK DATA ---
+        const FALLBACK_DATA = {
+            meta: { seasonYear: "2024-25" },
+            nfl: [
+                // CHRISTMAS DAY
+                { id: 1, league: 'nfl', homeTeam: "Washington Commanders", homeAbbr: "WSH", awayTeam: "Dallas Cowboys", awayAbbr: "DAL", time: "Thu Dec 25, 12:00 PM CST", stadium: "Commanders Field", status: "Christmas Day", players: [{ name: "CeeDee Lamb", position: "WR", team: "DAL", playerId: "4241389", propType: "Anytime TD", odds: 105, probability: 75, result: null, rationale: "Washington allows the most fantasy points to WRs. Lamb is Dak's primary read in the red zone.", recentForm: [1, 0, 2, 1, 1], seasonStats: { "Rec Yds": "1,180", "TDs": "9", "Targets": "125" }, matchupStats: { "Opp Rank vs WR": "32nd", "Man Cov %": "Low" }, expandedAnalysis: "Washington's secondary is historically bad. Lamb moves all over the formation and should see double-digit targets in a game the Cowboys need." }] },
+                { id: 2, league: 'nfl', homeTeam: "Minnesota Vikings", homeAbbr: "MIN", awayTeam: "Detroit Lions", awayAbbr: "DET", time: "Thu Dec 25, 3:30 PM CST", stadium: "U.S. Bank Stadium", status: "Christmas Day", players: [{ name: "Justin Jefferson", position: "WR", team: "MIN", playerId: "4262921", propType: "Anytime TD", odds: -110, probability: 78, result: null, rationale: "Jefferson vs Detroit's aggressive secondary is a mismatch. He dominates this rivalry.", recentForm: [1, 1, 0, 1, 2], seasonStats: { "Rec Yds": "1,450", "TDs": "8", "Y/Rec": "16.1" }, matchupStats: { "Opp Rank vs WR1": "26th", "Indoor": "Fast" }, expandedAnalysis: "Detroit plays man coverage at a high rate, which Jefferson destroys. Expect a shootout where Jefferson is force-fed the ball." }] },
+                { id: 3, league: 'nfl', homeTeam: "Kansas City Chiefs", homeAbbr: "KC", awayTeam: "Denver Broncos", awayAbbr: "DEN", time: "Thu Dec 25, 7:15 PM CST", stadium: "GEHA Field at Arrowhead", status: "Christmas Night", players: [{ name: "Isiah Pacheco", position: "RB", team: "KC", playerId: "4697968", propType: "Anytime TD", odds: -130, probability: 84, result: null, rationale: "Pacheco is the engine of the Chiefs' red zone offense. Denver allows 4.8 YPC on the road.", recentForm: [1, 2, 0, 1, 1], seasonStats: { "Rush TDs": "12", "Rush Yds": "1,050", "Rec Yds": "350" }, matchupStats: { "Opp Rank vs Run": "24th", "Weather": "Cold" }, expandedAnalysis: "In late-season divisional games at Arrowhead, Andy Reid relies heavily on the ground game. Pacheco's violent running style wears down the Broncos front seven." }] },
+                
+                // SATURDAY
+                { id: 4, league: 'nfl', homeTeam: "Los Angeles Chargers", homeAbbr: "LAC", awayTeam: "Houston Texans", awayAbbr: "HOU", time: "Sat Dec 27, 3:30 PM CST", stadium: "SoFi Stadium", status: "Saturday Football", players: [{ name: "Joe Mixon", position: "RB", team: "HOU", playerId: "3051389", propType: "Anytime TD", odds: -115, probability: 72, result: null, rationale: "Mixon sees massive volume in Houston's offense. Chargers run D is middle of the pack.", recentForm: [1, 1, 0, 2, 1], seasonStats: { "Rush TDs": "11", "Rush Yds": "1,080", "Att": "235" }, matchupStats: { "Opp Rank vs Run": "15th", "RZC": "High" }, expandedAnalysis: "With Stroud leading the way, Mixon gets plenty of light boxes. He is the unquestioned goal-line back for a high-scoring offense." }] },
+                { id: 5, league: 'nfl', homeTeam: "Green Bay Packers", homeAbbr: "GB", awayTeam: "Baltimore Ravens", awayAbbr: "BAL", time: "Sat Dec 27, 7:00 PM CST", stadium: "Lambeau Field", status: "Saturday Night", players: [{ name: "Derrick Henry", position: "RB", team: "BAL", playerId: "3043078", propType: "Anytime TD", odds: -160, probability: 88, result: null, rationale: "King Henry in December at Lambeau. It's a script written for a power back.", recentForm: [1, 2, 1, 1, 1], seasonStats: { "Rush TDs": "15", "Rush Yds": "1,320", "Y/Carry": "5.4" }, matchupStats: { "Opp Rank vs Run": "20th", "Weather": "Frozen" }, expandedAnalysis: "Packers struggle with physical runners. In freezing temps, Baltimore won't throw much. Henry 25+ carries lock." }] },
+
+                // SUNDAY KEY GAMES
+                { id: 6, league: 'nfl', homeTeam: "Buffalo Bills", homeAbbr: "BUF", awayTeam: "Philadelphia Eagles", awayAbbr: "PHI", time: "Sun Dec 28, 3:25 PM CST", stadium: "Highmark Stadium", status: "Week 17", players: [{ name: "Saquon Barkley", position: "RB", team: "PHI", playerId: "3929630", propType: "Anytime TD", odds: -110, probability: 80, result: null, rationale: "Saquon is the Eagles' MVP. Bills run defense allows big plays.", recentForm: [2, 1, 0, 1, 2], seasonStats: { "Total TDs": "16", "Scrimmage Yds": "1,450" }, matchupStats: { "Opp Rank vs Run": "22nd", "Gap Control": "Poor" }, expandedAnalysis: "In a potential Super Bowl preview, expect the Eagles to control the clock with Saquon. He is explosive and gets goal line carries alongside the Tush Push." }] },
+                { id: 7, league: 'nfl', homeTeam: "San Francisco 49ers", homeAbbr: "SF", awayTeam: "Chicago Bears", awayAbbr: "CHI", time: "Sun Dec 28, 7:20 PM CST", stadium: "Levi's Stadium", status: "SNF", players: [{ name: "Christian McCaffrey", position: "RB", team: "SF", playerId: "3117251", propType: "Anytime TD", odds: -220, probability: 92, result: null, rationale: "CMC at home on SNF. Shanahan will want to secure seeding.", recentForm: [1, 2, 1, 1, 1], seasonStats: { "Total TDs": "18", "Scrimmage Yds": "1,600" }, matchupStats: { "Opp Rank vs RB": "10th", "Surface": "Grass" }, expandedAnalysis: "The Bears defense has improved, but McCaffrey is matchup-proof. He is the first, second, and third option in the red zone." }] },
+                
+                // MONDAY
+                { id: 8, league: 'nfl', homeTeam: "Atlanta Falcons", homeAbbr: "ATL", awayTeam: "Los Angeles Rams", awayAbbr: "LAR", time: "Mon Dec 29, 7:15 PM CST", stadium: "Mercedes-Benz Stadium", status: "MNF", players: [{ name: "Bijan Robinson", position: "RB", team: "ATL", playerId: "4430800", propType: "Anytime TD", odds: -120, probability: 82, result: null, rationale: "Fast track indoors. Bijan's versatility vs Rams LBs is a huge edge.", recentForm: [1, 0, 2, 0, 1], seasonStats: { "Total TDs": "12", "Rec Yds": "450", "Rush Yds": "950" }, matchupStats: { "Opp Rank vs Pass RB": "28th", "Speed": "Advantage ATL" }, expandedAnalysis: "The Rams allow a ton of production to RBs in the passing game. Bijan should feast in space on the fast turf of Atlanta." }] }
+            ],
+            // Empty for other sports as requested
+            ncaa: [], nba: [], nhl: [], ncaab: [], boxing: []
+        };
+
+        const PARLAY_DATA = {
+            nfl: [
+                { 
+                    title: "Christmas Lock", 
+                    totalOdds: "+250", 
+                    multiplier: 3.50, 
+                    type: "safe", 
+                    analysis: "Backing the two biggest stars on Christmas. CeeDee Lamb against the worst pass defense in the league (WSH) and Derrick Henry in cold weather against a team that struggles with physicality.",
+                    items: [
+                        { text: "CeeDee Lamb Anytime TD", playerId: "4241389", team: "DAL" },
+                        { text: "Derrick Henry Anytime TD", playerId: "3043078", team: "BAL" }
+                    ]
+                },
+                { 
+                    title: "Week 17 Value", 
+                    totalOdds: "+900", 
+                    multiplier: 10.0, 
+                    type: "high", 
+                    analysis: "Jefferson at home is unstoppable. Saquon in a shootout with Josh Allen. CMC on SNF is free money. A high-upside parlay relying on elite usage rates.",
+                    items: [
+                        { text: "Justin Jefferson Anytime TD", playerId: "4262921", team: "MIN" },
+                        { text: "Saquon Barkley Anytime TD", playerId: "3929630", team: "PHI" },
+                        { text: "Christian McCaffrey Anytime TD", playerId: "3117251", team: "SF" }
+                    ]
+                }
+            ],
+            ncaa: [], nba: [], nhl: [], ncaab: [], boxing: []
+        };
+
+        // --- SNOWFALL COMPONENT ---
+        const Snowflakes = () => (
+            <div className="fixed inset-0 pointer-events-none z-0">
+                {[...Array(12)].map((_, i) => (
+                    <div key={i} className="snowflake"><Snowflake size={16} /></div>
+                ))}
+            </div>
+        );
+
+        // --- HELPER COMPONENTS ---
+
+        const ProbabilityBar = ({ percentage, result }) => {
+            let colorClass = "bg-blue-500";
+            if (percentage >= 90) colorClass = "bg-green-500";
+            else if (percentage >= 75) colorClass = "bg-emerald-400";
+            else if (percentage >= 60) colorClass = "bg-yellow-400";
+            else colorClass = "bg-orange-400";
+
+            return (
+                <div className="w-full bg-slate-700/50 rounded-full h-2.5 mt-2 overflow-hidden">
+                <div className={`h-2.5 rounded-full ${colorClass} transition-all duration-1000 ease-out`} style={{ width: `${percentage}%` }}></div>
+                </div>
+            );
+        };
+
+        const RecentFormSparks = ({ data }) => (
+            <div className="flex items-end space-x-1 h-8">
+                {data.map((val, idx) => (
+                <div key={idx} className={`w-1.5 rounded-t-sm ${val > 0 ? 'bg-green-400' : 'bg-slate-600'}`} style={{ height: `${Math.max(20, (val + 0.5) * 33)}%` }} title={val > 0 ? "Hit" : "Miss"}></div>
+                ))}
+            </div>
+        );
+
+        const UnderConstruction = () => (
+            <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
+                <div className="bg-yellow-500/10 p-6 rounded-full mb-6 border border-yellow-500/20">
+                    <div className="text-yellow-500"><Activity size={48} /></div>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2">Season Not Active</h3>
+                <p className="text-slate-400 max-w-md">Our predictive models for this sport are currently calibrating. Check back later for real-time analytics.</p>
+            </div>
+        );
+
+        const PlayerModal = ({ player, league, onClose }) => {
+            if (!player) return null;
+            return (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
+                <div className="relative bg-slate-900 border border-slate-700 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                    <button onClick={onClose} className="absolute top-4 right-4 z-10 p-2 bg-black/20 hover:bg-black/40 rounded-full text-slate-400 hover:text-white transition-colors"><X size={20} /></button>
+                    <div className="relative bg-gradient-to-r from-slate-800 to-slate-900 p-8 flex flex-col sm:flex-row items-center sm:items-end gap-6 border-b border-slate-700">
+                    <div className="w-32 h-32 rounded-full border-4 border-slate-700 bg-slate-800 overflow-hidden shadow-xl shrink-0">
+                        <img src={getPlayerHeadshot(player.playerId)} alt={player.name} className="w-full h-full object-cover object-top pt-2" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }} />
+                    </div>
+                    <div className="text-center sm:text-left">
+                        <h2 className="text-3xl font-black text-white tracking-tight">{player.name}</h2>
+                        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-2">
+                        <span className="px-3 py-1 bg-blue-600 text-white text-xs font-bold rounded-full uppercase tracking-wider">{player.team} • {player.position}</span>
+                        <span className="text-slate-400 text-sm font-medium flex items-center gap-1"><Target size={14} className="text-red-400"/> {player.propType}</span>
+                        </div>
+                        <div className="mt-4 flex items-center justify-center sm:justify-start gap-4">
+                        <div><span className="text-xs text-slate-500 uppercase font-bold block">Implied Odds</span><span className={`text-2xl font-mono font-bold ${player.odds < 0 ? 'text-green-400' : 'text-yellow-400'}`}>{player.odds > 0 ? '+' : ''}{player.odds}</span></div>
+                        <div className="h-8 w-px bg-slate-700"></div>
+                        <div><span className="text-xs text-slate-500 uppercase font-bold block">Model Prob.</span><span className="text-2xl font-bold text-white">{player.probability}%</span></div>
+                        </div>
+                    </div>
+                    </div>
+                    <div className="p-6 sm:p-8 space-y-8 max-h-[60vh] overflow-y-auto">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        {player.seasonStats && Object.entries(player.seasonStats).map(([key, value]) => (
+                        <div key={key} className="bg-slate-800/50 p-3 rounded-lg border border-slate-700/50 text-center"><div className="text-[10px] text-slate-500 uppercase font-bold mb-1">{key}</div><div className="text-lg font-bold text-white">{value}</div></div>
+                        ))}
+                    </div>
+                    <div className="space-y-4"><h3 className="text-lg font-bold text-white flex items-center gap-2"><Activity className="text-blue-400" size={20}/> Model Analysis</h3><div className="bg-slate-800/30 p-5 rounded-xl border border-slate-700/50 leading-relaxed text-slate-300">{player.expandedAnalysis || player.rationale}</div></div>
+                    <div><h3 className="text-lg font-bold text-white flex items-center gap-2 mb-3"><Swords className="text-red-400" size={20}/> Matchup Intel</h3><div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {player.matchupStats && Object.entries(player.matchupStats).map(([key, value]) => (
+                            <div key={key} className="flex justify-between items-center p-3 bg-slate-800/50 rounded-lg border-l-4 border-slate-600"><span className="text-sm text-slate-400">{key}</span><span className="font-bold text-white">{value}</span></div>
+                        ))}
+                    </div></div>
+                    </div>
+                </div>
+                </div>
+            );
+        };
+
+        const ParlayModal = ({ parlay, onClose }) => {
+            if (!parlay) return null;
+            return (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
+                    <div className="relative bg-slate-900 border border-slate-700 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                        <button onClick={onClose} className="absolute top-4 right-4 z-10 p-2 bg-black/20 hover:bg-black/40 rounded-full text-slate-400 hover:text-white transition-colors"><X size={20} /></button>
+                        <div className="relative bg-gradient-to-br from-indigo-900 to-slate-900 p-6 border-b border-slate-700">
+                            <div className="flex justify-between items-start mb-2">
+                                <div><span className={`text-[10px] uppercase font-bold px-2 py-1 rounded border ${parlay.type === 'safe' ? 'bg-green-500/20 text-green-400 border-green-500/30' : 'bg-purple-500/20 text-purple-400 border-purple-500/30'}`}>{parlay.type === 'safe' ? 'Conservative Play' : 'High Value Lotto'}</span><h2 className="text-2xl font-black text-white mt-2">{parlay.title}</h2></div>
+                                <div className="text-right"><div className="text-xs text-slate-400 font-bold uppercase">Total Odds</div><div className="text-3xl font-mono font-bold text-white">{parlay.totalOdds}</div></div>
+                            </div>
+                        </div>
+                        <div className="p-6 space-y-6 max-h-[60vh] overflow-y-auto">
+                            <div><h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3">Parlay Legs</h3><div className="space-y-3">
+                                {parlay.items.map((item, i) => (
+                                    <div key={i} className="flex items-center p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                                        <div className="shrink-0 mr-3 text-slate-500"><Layers size={16} /></div>
+                                        <div className="flex -space-x-2 mr-3">
+                                            {item.playerId && (<div className="h-8 w-8 rounded-full bg-slate-700 overflow-hidden border-2 border-slate-800 z-10"><img src={getPlayerHeadshot(item.playerId)} className="w-full h-full object-cover" onError={(e) => e.target.style.display='none'}/></div>)}
+                                            {item.team && (<div className="h-8 w-8 rounded-full bg-slate-800 p-1 overflow-hidden border-2 border-slate-800 z-0 flex items-center justify-center"><img src={getTeamLogo(item.team)} className="w-full h-full object-contain" onError={(e) => e.target.style.display='none'}/></div>)}
+                                        </div>
+                                        <span className="font-bold text-slate-200 text-sm">{item.text}</span>
+                                    </div>
+                                ))}
+                            </div></div>
+                            <div className="bg-blue-900/10 p-4 rounded-xl border border-blue-500/20"><h3 className="text-sm font-bold text-blue-400 uppercase tracking-wider mb-2 flex items-center gap-2"><Activity size={16}/> Strategy & Analysis</h3><p className="text-sm text-slate-300 leading-relaxed">{parlay.analysis}</p></div>
+                        </div>
+                        <div className="bg-slate-950 p-4 border-t border-slate-800 flex justify-between items-center"><span className="text-slate-500 text-xs">Based on $100 Wager</span><span className="text-green-400 font-bold text-xl">Est. Payout: ${(100 * parlay.multiplier).toFixed(2)}</span></div>
+                    </div>
+                </div>
+            );
+        };
+
+        const GameCard = ({ game, onSelectPlayer, theme }) => {
+            const away = splitTeamName(game.awayTeam);
+            const home = splitTeamName(game.homeTeam);
+            let leagueSlug = 'nfl';
+            let leagueColor = theme === 'christmas' ? 'bg-red-900/20 text-green-400 border-red-500/30' : 'bg-blue-900/30 text-blue-400 border-blue-500/30';
+
+            return (
+                <div className={`border rounded-xl overflow-hidden hover:border-opacity-100 transition-all duration-300 shadow-lg ${theme === 'christmas' ? 'bg-slate-900/80 backdrop-blur-sm border-red-900/50 hover:border-green-500/50' : 'bg-slate-800 border-slate-700 hover:border-blue-500/50'}`}>
+                <div className={`p-4 flex justify-between items-center border-b ${theme === 'christmas' ? 'bg-red-950/30 border-red-900/50' : 'bg-slate-900/50 border-slate-700'}`}>
+                    <div className="flex items-center space-x-2 text-sm text-slate-400"><Clock size={14} /><span>{game.time}</span></div>
+                    <span className={`text-xs font-bold px-2 py-1 rounded border ${leagueColor}`}>{game.status}</span>
+                </div>
+                <div className="p-6 flex justify-between items-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-800 to-slate-900 opacity-50 z-0"></div>
+                    <div className="text-center w-1/3 z-10 flex flex-col items-center">
+                    <div className="w-16 h-16 bg-white/5 rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg relative">
+                         <img src={getTeamLogo(game.awayAbbr)} alt={game.awayTeam} className="w-full h-full object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
+                        <div className="absolute inset-0 flex items-center justify-center text-xs font-black text-slate-900" style={{zIndex: -1}}>{game.awayAbbr}</div>
+                    </div>
+                    <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-tight mt-1">{away.city}</div>
+                    <div className="text-xl font-black text-white leading-none mt-0.5">{away.name}</div>
+                    <div className="text-[9px] text-slate-600 uppercase tracking-widest mt-1">Away</div>
+                    </div>
+                    <div className="text-center w-1/3 z-10"><span className="text-slate-500 font-bold text-lg bg-slate-950/50 px-3 py-1 rounded-full border border-slate-800">VS</span></div>
+                    <div className="text-center w-1/3 z-10 flex flex-col items-center">
+                    <div className="w-16 h-16 bg-white/5 rounded-full p-2 mb-2 ring-1 ring-white/10 shadow-lg">
+                        <img src={getTeamLogo(game.homeAbbr)} alt={game.homeTeam} className="w-full h-full object-contain" onError={(e) => {e.target.style.display = 'none'}} />
+                    </div>
+                    <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-tight mt-1">{home.city}</div>
+                    <div className="text-xl font-black text-white leading-none mt-0.5">{home.name}</div>
+                    <div className="text-[9px] text-slate-600 uppercase tracking-widest mt-1">Home</div>
+                    </div>
+                </div>
+                <div className="px-4 pb-4 space-y-3">
+                    {game.players.map((player, idx) => (
+                    <div 
+                        key={idx} 
+                        onClick={() => onSelectPlayer(player)} 
+                        className={`group cursor-pointer rounded-lg p-3 border transition-all active:scale-[0.98] 
+                        ${player.result === 'hit' ? 'border-green-500/50 bg-green-900/10' : player.result === 'miss' ? 'border-red-500/50 bg-red-900/10' : 'bg-slate-700/30 border-slate-700/50 hover:bg-slate-700/50 hover:border-blue-500/50'}`}
+                    >
+                        <div className="flex justify-between items-start mb-2">
+                        <div className="flex items-center gap-3">
+                            <div className="h-12 w-12 rounded-full overflow-hidden bg-slate-600 border border-slate-500 shrink-0 group-hover:border-blue-400 transition-colors">
+                            <img src={getPlayerHeadshot(player.playerId)} alt={player.name} className="w-full h-full object-cover object-top pt-1" onError={(e) => { e.target.onerror = null; e.target.src="https://www.espn.com/i/headshots/nfl/players/full/default.png" }} />
+                            </div>
+                            <div>
+                            <h4 className="font-bold text-white flex items-center gap-2 text-sm sm:text-base group-hover:text-blue-400 transition-colors">{player.name}<ChevronRight size={14} className="opacity-0 -ml-1 group-hover:opacity-100 group-hover:ml-0 transition-all text-blue-400"/></h4>
+                            <div className="flex items-center gap-2 mt-0.5"><span className="text-[10px] font-bold bg-slate-600 px-1.5 py-0.5 rounded text-slate-200">{player.position}</span><span className="text-xs text-blue-300">{player.propType}</span></div>
+                            </div>
+                        </div>
+                        <div className="text-right"><span className={`font-mono font-bold text-lg ${player.odds < 0 ? 'text-green-400' : 'text-yellow-400'}`}>{player.odds > 0 ? '+' : ''}{player.odds}</span></div>
+                        </div>
+                        <div className="mb-2 mt-3">
+                            <div className="flex justify-between text-xs text-slate-400 mb-1">
+                                <span>{player.result ? 'Result' : 'Hit Probability'}</span>
+                                <span>{player.result ? '' : player.probability + '%'}</span>
+                            </div>
+                            <ProbabilityBar percentage={player.probability} result={player.result} />
+                        </div>
+                        { !player.result && <p className="text-xs text-slate-400 italic border-l-2 border-slate-600 pl-2 my-2">"{player.rationale}"</p> }
+                        { player.result && <p className={`text-xs italic border-l-2 pl-2 my-2 ${player.result === 'hit' ? 'text-green-400 border-green-500' : 'text-red-400 border-red-500'}`}>"{player.expandedAnalysis}"</p> }
+                        <div className="flex justify-between items-center mt-3 pt-2 border-t border-slate-700/50"><span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Recent Form (Last 5)</span><RecentFormSparks data={player.recentForm} /></div>
+                        <div className="mt-2 text-center"><span className="text-[10px] text-slate-500 group-hover:text-blue-400 transition-colors font-medium">Click to view Intel & Stats</span></div>
+                    </div>
+                    ))}
+                </div>
+                </div>
+            );
+        };
+
+        const ParlayCard = ({ title, totalOdds, multiplier, type, items, theme, onSelect }) => {
+            const isSafe = type === 'safe';
+            const bgClass = theme === 'christmas'
+                ? (isSafe ? 'bg-gradient-to-br from-green-700/20 to-red-800/20 border-green-500/30' : 'bg-gradient-to-br from-yellow-600/20 to-red-700/20 border-yellow-500/30')
+                : (isSafe ? 'bg-gradient-to-br from-emerald-500 to-green-700' : 'bg-gradient-to-br from-indigo-500 to-purple-700');
+
+            return (
+                <div 
+                    onClick={onSelect}
+                    className={`rounded-xl p-1 shadow-xl transform hover:scale-[1.02] transition-transform cursor-pointer ${bgClass} backdrop-blur-sm border border-transparent hover:border-white/20`}
+                >
+                <div className={`rounded-lg p-5 h-full relative overflow-hidden ${theme === 'christmas' ? 'bg-slate-900/10 backdrop-blur-none' : 'bg-slate-900'}`}>
+                    <div className={`absolute top-0 right-0 p-2 opacity-10`}>{isSafe ? <ShieldCheck size={64} /> : <Zap size={64} />}</div>
+                    <div className="flex justify-between items-center mb-4"><h3 className={`font-black text-xl uppercase tracking-wider ${isSafe ? 'text-green-400' : 'text-indigo-400'}`}>{title}</h3><span className="bg-white/10 px-2 py-1 rounded text-xs font-mono text-white">{totalOdds}</span></div>
+                    <ul className="space-y-3 mb-6">
+                        {items.map((item, i) => {
+                            let leagueSlug = 'nfl';
+                            return (
+                                <li key={i} className="flex items-center space-x-3 text-sm text-slate-300 border-b border-slate-800 pb-2 last:border-0">
+                                    <div className="shrink-0 text-slate-500">
+                                        {isSafe ? <ShieldCheck size={14} className="text-green-500" /> : <TrendingUp size={14} className="text-purple-500" />}
+                                    </div>
+                                    {item.playerId && (
+                                        <div className="h-6 w-6 rounded-full bg-slate-700 overflow-hidden border border-slate-600 shrink-0">
+                                            <img src={getPlayerHeadshot(item.playerId)} onError={(e) => e.target.style.display='none'} className="w-full h-full object-cover" />
+                                        </div>
+                                    )}
+                                    {item.team && (
+                                        <div className="h-5 w-5 object-contain shrink-0">
+                                            <img src={getTeamLogo(item.team)} onError={(e) => e.target.style.display='none'} className="w-full h-full" />
+                                        </div>
+                                    )}
+                                    <span className="leading-tight">{item.text}</span>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                    <div className="flex justify-between items-end mt-auto">
+                        <div>
+                            <p className="text-xs text-slate-500">Implied Payout (on $10)</p>
+                            <p className="text-2xl font-bold text-white">${(10 * multiplier).toFixed(2)}</p>
+                        </div>
+                        <div className="text-xs text-blue-400 flex items-center gap-1 font-bold">
+                             View Analysis <ChevronRight size={12} />
+                        </div>
+                    </div>
+                </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [selectedLeague, setSelectedLeague] = useState('nfl');
+            const [selectedPlayer, setSelectedPlayer] = useState(null);
+            const [selectedParlay, setSelectedParlay] = useState(null); 
+            const [theme, setTheme] = useState('standard');
+
+            useEffect(() => {
+                const today = new Date();
+                const currentMonth = today.getMonth(); 
+                const currentDate = today.getDate();
+                if (currentMonth === 11 && currentDate <= 25) {
+                    setTheme('christmas');
+                } else {
+                    setTheme('standard');
+                }
+            }, []);
+
+            useEffect(() => {
+                let link = document.querySelector("link[rel*='icon']");
+                if (!link) {
+                link = document.createElement('link');
+                link.rel = 'shortcut icon';
+                document.getElementsByTagName('head')[0].appendChild(link);
+                }
+                link.type = 'image/svg+xml';
+                link.href = `data:image/svg+xml,${encodeURIComponent(FAVICON_SVG_STRING)}`;
+            }, []);
+
+            const currentParlays = PARLAY_DATA[selectedLeague] || [];
+
+            return (
+                <div className={`min-h-screen font-sans pb-12 relative ${theme === 'christmas' ? 'bg-slate-950 text-slate-100 selection:bg-red-500/30' : 'bg-slate-950 text-slate-200 selection:bg-blue-500/30'}`}>
+                
+                {theme === 'christmas' && <Snowflakes />}
+
+                {/* Player Modal */}
+                <PlayerModal player={selectedPlayer} league={selectedLeague} onClose={() => setSelectedPlayer(null)} />
+
+                {/* Parlay Modal */}
+                <ParlayModal parlay={selectedParlay} league={selectedLeague} onClose={() => setSelectedParlay(null)} />
+
+                {/* Navigation Bar */}
+                <nav className={`border-b backdrop-blur-md sticky top-0 z-50 ${theme === 'christmas' ? 'bg-red-950/80 border-red-900' : 'bg-slate-900/50 border-slate-800'}`}>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between h-16">
+                        <div className="flex items-center gap-2">
+                        <div className={`${theme === 'christmas' ? 'bg-red-600' : 'bg-blue-600'} p-2 rounded-lg transform rotate-3 shadow-lg`}>
+                            {theme === 'christmas' ? <Gift size={20} className="text-white" /> : <Trophy size={20} className="text-white" />}
+                        </div>
+                        <div>
+                            <span className="text-xl font-black tracking-tighter text-white">BET<span className={theme === 'christmas' ? 'text-green-400' : 'text-blue-500'}>LOGIC</span>.WIN</span>
+                            <span className="text-[10px] block text-slate-500 font-mono -mt-1 tracking-widest uppercase">
+                                {theme === 'christmas' ? 'Holiday Edition 2025' : `Predictive Analytics ${FALLBACK_DATA.meta?.seasonYear || "2025"}`}
+                            </span>
+                        </div>
+                        </div>
+                        
+                        {/* League Switcher (Desktop) */}
+                        <div className={`hidden md:flex p-1 rounded-lg border ${theme === 'christmas' ? 'bg-black/40 border-white/10' : 'bg-slate-800 border-slate-700'}`}>
+                             {['nfl', 'ncaa', 'nba', 'nhl', 'ncaab', 'boxing'].map(league => (
+                                 <button 
+                                    key={league}
+                                    onClick={() => setSelectedLeague(league)} 
+                                    className={`px-4 py-1.5 rounded-md text-sm font-bold transition-all uppercase ${
+                                        selectedLeague === league 
+                                        ? (theme === 'christmas' ? 'bg-green-600 text-white shadow-lg' : 'bg-blue-600 text-white shadow-lg') 
+                                        : 'text-slate-400 hover:text-white'
+                                    }`}
+                                 >
+                                    {league === 'ncaa' ? 'NCAAF' : league}
+                                 </button>
+                             ))}
+                        </div>
+                    </div>
+                    </div>
+                    {/* Mobile League Switcher */}
+                     <div className="md:hidden border-t border-slate-800 p-2 flex justify-center gap-2 bg-slate-900/80 overflow-x-auto no-scrollbar">
+                         {['nfl', 'ncaa', 'nba', 'nhl', 'ncaab', 'boxing'].map(league => (
+                             <button 
+                                key={league}
+                                onClick={() => setSelectedLeague(league)} 
+                                className={`flex-1 min-w-[50px] py-1.5 rounded-md text-xs font-bold transition-all uppercase ${
+                                    selectedLeague === league 
+                                    ? (theme === 'christmas' ? 'bg-green-600 text-white' : 'bg-blue-600 text-white') 
+                                    : 'bg-slate-800 text-slate-400'
+                                }`}
+                             >
+                                {league}
+                             </button>
+                         ))}
+                     </div>
+                </nav>
+
+                <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+                    
+                    {/* Hero Section */}
+                    <div className="mb-12">
+                    <h1 className="text-3xl md:text-5xl font-black text-white mb-4">
+                        <span className={`text-transparent bg-clip-text bg-gradient-to-r ${
+                            theme === 'christmas' ? 'from-green-400 via-red-400 to-gold-400' : 'from-blue-400 to-emerald-400'}`}>
+                            {selectedLeague === 'nfl' ? 'NFL Week 17' : 'Under Construction'}
+                        </span> 
+                        {selectedLeague === 'nfl' ? ' Top TD Props' : ''}
+                    </h1>
+                    <p className={`text-xl font-bold mb-3 ${theme === 'christmas' ? 'text-green-400' : 'text-blue-400'}`}>
+                        Don't just bet, bet with logic.
+                    </p>
+                    <p className="text-slate-400 max-w-2xl text-lg">
+                        {selectedLeague === 'nfl' ? "Statistical analysis and matchup-based predictions for Week 17 NFL action." : "Our predictive models for this sport are currently calibrating. Check back later for real-time analytics."}
+                    </p>
+                    </div>
+
+                    {selectedLeague === 'nfl' ? (
+                        <>
+                            {/* Parlay Recommendations */}
+                            <div className="mb-12">
+                                <div className="flex items-center gap-2 mb-6">
+                                    <Zap className={theme === 'christmas' ? 'text-green-400' : 'text-yellow-400'} />
+                                    <h2 className="text-2xl font-bold text-white">Recommended Parlays</h2>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {currentParlays.map((parlay, idx) => (
+                                        <ParlayCard 
+                                            key={idx}
+                                            title={parlay.title}
+                                            totalOdds={parlay.totalOdds}
+                                            multiplier={parlay.multiplier}
+                                            type={parlay.type}
+                                            items={parlay.items}
+                                            theme={theme}
+                                            league={selectedLeague}
+                                            onSelect={() => setSelectedParlay(parlay)}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Main Stats Grid */}
+                            <div className="mb-8">
+                            <div className="flex items-center justify-between mb-6">
+                                <div className="flex items-center gap-2"><BarChart3 className={theme === 'christmas' ? 'text-green-400' : 'text-blue-400'} /><h2 className="text-2xl font-bold text-white">Matchup Analysis</h2></div>
+                                 <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ${
+                                     theme === 'christmas' ? 'bg-red-900/50 text-green-300 border border-white/10' : 'bg-blue-500/20 text-blue-400'
+                                 }`}>NFL PRO</span>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {FALLBACK_DATA.nfl.map((game) => (
+                                    <GameCard key={game.id} game={game} onSelectPlayer={setSelectedPlayer} theme={theme} />
+                                ))}
+                            </div>
+                            </div>
+                        </>
+                    ) : (
+                        <UnderConstruction />
+                    )}
+                </main>
+
+                {/* Footer */}
+                <footer className={`border-t mt-12 py-8 ${theme === 'christmas' ? 'bg-red-950/20 border-red-900/30' : 'bg-slate-900 border-slate-800'}`}>
+                    <div className="max-w-7xl mx-auto px-4 text-center">
+                    <p className="text-slate-500 text-sm">© {FALLBACK_DATA.meta?.seasonYear || "2025"} BetLogic.win Analytics. Data is for entertainment purposes only.</p>
+                    <div className="flex justify-center gap-4 mt-4"><span className="text-xs text-slate-600 px-2 py-1 border border-slate-700 rounded">React</span><span className="text-xs text-slate-600 px-2 py-1 border border-slate-700 rounded">Tailwind</span><span className="text-xs text-slate-600 px-2 py-1 border border-slate-700 rounded">JSON Data</span></div>
+                    </div>
+                </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
