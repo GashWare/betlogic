@@ -112,7 +112,8 @@
         // Helper for Player Headshots (ESPN CDN)
         const getPlayerHeadshot = (playerId) => {
             if (!playerId) return FALLBACK_PLAYER_IMG;
-            return `https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${playerId}.png&w=350&h=254`;
+            // Use direct image URL instead of combiner for better reliability
+            return `https://a.espncdn.com/i/headshots/nfl/players/full/${playerId}.png`;
         };
 
         // Helper to split full team name into City/Location and Mascot Name
@@ -230,7 +231,7 @@
                     <button onClick={onClose} className="absolute top-4 right-4 z-10 p-2 bg-black/20 hover:bg-black/40 rounded-full text-slate-400 hover:text-white transition-colors"><X size={20} /></button>
                     <div className="relative bg-gradient-to-r from-slate-800 to-slate-900 p-8 flex flex-col sm:flex-row items-center sm:items-end gap-6 border-b border-slate-700">
                     <div className="w-32 h-32 rounded-full border-4 border-slate-700 bg-slate-800 overflow-hidden shadow-xl shrink-0">
-                        <img src={getPlayerHeadshot(player.playerId)} alt={player.name} className="w-full h-full object-cover object-top pt-2" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }} />
+                        <img src={getPlayerHeadshot(player.playerId)} alt={player.name} className="w-full h-full object-cover object-top pt-2" onError={(e) => { e.target.onerror = null; e.target.src="https://via.placeholder.com/150/333/fff?text=No+Img"; }} />
                     </div>
                     <div className="text-center sm:text-left">
                         <h2 className="text-3xl font-black text-white tracking-tight">{player.name}</h2>
@@ -282,7 +283,7 @@
                                     <div key={i} className="flex items-center p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
                                         <div className="shrink-0 mr-3 text-slate-500"><Layers size={16} /></div>
                                         <div className="flex -space-x-2 mr-3">
-                                            {item.playerId && (<div className="h-8 w-8 rounded-full bg-slate-700 overflow-hidden border-2 border-slate-800 z-10"><img src={getPlayerHeadshot(item.playerId)} className="w-full h-full object-cover" onError={(e) => e.target.style.display='none'}/></div>)}
+                                            {item.playerId && (<div className="h-8 w-8 rounded-full bg-slate-700 overflow-hidden border-2 border-slate-800 z-10"><img src={getPlayerHeadshot(item.playerId)} className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }}/></div>)}
                                             {item.team && (<div className="h-8 w-8 rounded-full bg-slate-800 p-1 overflow-hidden border-2 border-slate-800 z-0 flex items-center justify-center"><img src={getTeamLogo(item.team)} className="w-full h-full object-contain" onError={(e) => e.target.style.display='none'}/></div>)}
                                         </div>
                                         <span className="font-bold text-slate-200 text-sm">{item.text}</span>
@@ -341,7 +342,7 @@
                         <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-3">
                             <div className="h-12 w-12 rounded-full overflow-hidden bg-slate-600 border border-slate-500 shrink-0 group-hover:border-blue-400 transition-colors">
-                            <img src={getPlayerHeadshot(player.playerId)} alt={player.name} className="w-full h-full object-cover object-top pt-1" onError={(e) => { e.target.onerror = null; e.target.src="https://www.espn.com/i/headshots/nfl/players/full/default.png" }} />
+                            <img src={getPlayerHeadshot(player.playerId)} alt={player.name} className="w-full h-full object-cover object-top pt-1" onError={(e) => { e.target.onerror = null; e.target.src=FALLBACK_PLAYER_IMG; }} />
                             </div>
                             <div>
                             <h4 className="font-bold text-white flex items-center gap-2 text-sm sm:text-base group-hover:text-blue-400 transition-colors">{player.name}<ChevronRight size={14} className="opacity-0 -ml-1 group-hover:opacity-100 group-hover:ml-0 transition-all text-blue-400"/></h4>
@@ -390,16 +391,29 @@
                                     <div className="shrink-0 text-slate-500">
                                         {isSafe ? <ShieldCheck size={14} className="text-green-500" /> : <TrendingUp size={14} className="text-purple-500" />}
                                     </div>
+                                    
+                                    {/* Player Headshot if ID exists */}
                                     {item.playerId && (
                                         <div className="h-6 w-6 rounded-full bg-slate-700 overflow-hidden border border-slate-600 shrink-0">
-                                            <img src={getPlayerHeadshot(item.playerId)} onError={(e) => e.target.style.display='none'} className="w-full h-full object-cover" />
+                                            <img 
+                                                src={getPlayerHeadshot(item.playerId, leagueSlug)} 
+                                                onError={(e) => e.target.style.display='none'}
+                                                className="w-full h-full object-cover" 
+                                            />
                                         </div>
                                     )}
+
+                                    {/* Team Logo if Team exists */}
                                     {item.team && (
                                         <div className="h-5 w-5 object-contain shrink-0">
-                                            <img src={getTeamLogo(item.team)} onError={(e) => e.target.style.display='none'} className="w-full h-full" />
+                                            <img 
+                                                src={getTeamLogo(item.team, leagueSlug)}
+                                                onError={(e) => e.target.style.display='none'}
+                                                className="w-full h-full"
+                                            />
                                         </div>
                                     )}
+
                                     <span className="leading-tight">{item.text}</span>
                                 </li>
                             );
@@ -516,12 +530,14 @@
                     
                     {/* Hero Section */}
                     <div className="mb-12">
-                    <h1 className="text-3xl md:text-5xl font-black text-white mb-4">
-                        <span className={`text-transparent bg-clip-text bg-gradient-to-r ${
-                            theme === 'christmas' ? 'from-green-400 via-red-400 to-gold-400' : 'from-blue-400 to-emerald-400'}`}>
+                    <h1 className="text-3xl md:text-5xl font-black text-white mb-4 flex flex-wrap items-center gap-x-3 gap-y-2">
+                        <span className={`text-transparent bg-clip-text bg-gradient-to-r leading-tight py-1 ${
+                            theme === 'christmas' ? 'from-green-400 via-red-400 to-amber-300' : 'from-blue-400 to-emerald-400'}`}>
                             {selectedLeague === 'nfl' ? 'NFL Week 17' : 'Under Construction'}
                         </span> 
-                        {selectedLeague === 'nfl' ? ' Top TD Props' : ''}
+                        <span className="text-white whitespace-nowrap leading-tight">
+                            {selectedLeague === 'nfl' ? 'Top TD Props' : ''}
+                        </span>
                     </h1>
                     <p className={`text-xl font-bold mb-3 ${theme === 'christmas' ? 'text-green-400' : 'text-blue-400'}`}>
                         Don't just bet, bet with logic.
